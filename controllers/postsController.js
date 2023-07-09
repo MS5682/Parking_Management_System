@@ -1,41 +1,36 @@
-// controllers/postsController.js
 const Post = require('../models/Post');
 
 exports.createPost = (req, res) => {
-    const { title, content } = req.body;
-
-    Post.createPost(title, content, (error, result) => {
-        if (error) return res.status(500).send(error);
-        res.status(201).json({ id: result.insertId, title, content });
-    });
+  const postData = req.body;
+  Post.createPost(postData, (result) => {
+    res.status(201).json(result);
+  });
 };
 
-exports.getAllPosts = (req, res) => {
-    Post.getAllPosts((error, results) => {
-        if (error) return res.status(500).send(error);
-        res.render('posts/index', { posts: results });
-    });
+exports.getPosts = (req, res) => {
+    Post.getPosts((results) => {
+    res.status(200).json(results);
+  });
 };
 
-exports.newPost = (req, res) => {
-    res.render('posts/new');
+exports.getPostById = (req, res) => {
+  const postCode = req.params.postCode;
+  Post.getPostById(postCode, (results) => {
+    res.status(200).json(results);
+  });
 };
 
 exports.updatePost = (req, res) => {
-    const { title, content } = req.body;
-    const { id } = req.params;
-
-    Post.updatePost(id, title, content, error => {
-        if (error) return res.status(500).send(error);
-        res.status(200).json({ id, title, content });
-    });
+  const postCode = req.params.postCode;
+  const postData = req.body;
+  Post.updatePost(postCode, postData, (result) => {
+    res.status(200).json(result);
+  });
 };
 
 exports.deletePost = (req, res) => {
-    const { id } = req.params;
-
-    Post.deletePost(id, error => {
-        if (error) return res.status(500).send(error);
-        res.status(200).json({ id });
-    });
+  const postCode = req.params.postCode;
+  Post.deletePost(postCode, (result) => {
+    res.status(200).json(result);
+  });
 };
