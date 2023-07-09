@@ -7,8 +7,8 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 const mysql = require('mysql');
 
-//var indexRouter = require('./routes/index');
-//var loginRouter = require('./routes/loginRouter');
+var indexRouter = require('./routes/index');
+var userRouter = require('./routes/userRouter');
 
 require('dotenv').config(); // dotenv 패키지를 사용하여 .env 파일 로드
 const conn = mysql.createConnection({
@@ -51,10 +51,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-/*
+
 //router
 app.use('/', indexRouter);
-app.use('/login', loginRouter);
+app.use('/user', userRouter);
 
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => {
@@ -67,13 +67,14 @@ app.get('/logout', (req, res) => {
     res.redirect('/'); // 로그아웃 후 리디렉션할 경로
   });
 });
-*/
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
+app.use(express.static('public'));
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development

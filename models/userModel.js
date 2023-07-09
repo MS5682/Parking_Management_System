@@ -1,7 +1,7 @@
 require('dotenv').config(); // dotenv 패키지를 사용하여 .env 파일 로드
 const mysql = require('mysql');
 const conn = mysql.createConnection({
-  host: process.env.DB_HOST, // 환경변수를 사용하여 값 설정
+  host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
@@ -19,7 +19,7 @@ module.exports.join = (id, passwd, user_code, phone_number, email, name, car_num
                 } else {
                     conn.query(
                         'INSERT INTO user(id, passwd, user_code, phone_number, email, name, car_number) VALUES (?,?,?,?,?,?,?)',
-                        [passwd, user_code, phone_number, email, name, car_number],
+                        [id, passwd, user_code, phone_number, email, name, car_number],
                         (err, rows) => {
                             if (err) {
                                 reject(err);
