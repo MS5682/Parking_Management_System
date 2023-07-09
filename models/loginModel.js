@@ -1,10 +1,11 @@
+require('dotenv').config(); // dotenv 패키지를 사용하여 .env 파일 로드
 const mysql = require('mysql');
 const conn = mysql.createConnection({
-  host: '15.164.231.65',
-  user: 'root',
-  password: '1234',
-  port: '53529',
-  database: 'parking_system',
+  host: process.env.DB_HOST, // 환경변수를 사용하여 값 설정
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+  database: process.env.DB_DATABASE,
 });
 
 module.exports.join = (id, passwd, user_code, phone_number, email, name, car_number) => {

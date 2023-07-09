@@ -7,16 +7,16 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 const mysql = require('mysql');
 
-var indexRouter = require('./routes/index');
-var loginRouter = require('./routes/loginRouter');
+//var indexRouter = require('./routes/index');
+//var loginRouter = require('./routes/loginRouter');
 
-
+require('dotenv').config(); // dotenv 패키지를 사용하여 .env 파일 로드
 const conn = mysql.createConnection({
-  host: '15.164.231.65',
-  user: 'root',
-  password: '1234',
-  port: '53529',
-  database: 'parking_system',
+  host: process.env.DB_HOST, // 환경변수를 사용하여 값 설정
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+  database: process.env.DB_DATABASE,
 });
 
 var app = express();
@@ -51,6 +51,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+/*
 //router
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
@@ -66,6 +67,7 @@ app.get('/logout', (req, res) => {
     res.redirect('/'); // 로그아웃 후 리디렉션할 경로
   });
 });
+*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
