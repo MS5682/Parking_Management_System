@@ -1,0 +1,92 @@
+const mysql = require('mysql');
+const conn = mysql.createConnection({
+  host: '15.164.231.65',
+  user: 'root',
+  password: '1234',
+  port: '53529',
+  database: 'parking_system',
+});
+
+module.exports.join = (id, passwd, user_code, phone_number, email, name, car_number) => {
+    return new Promise((resolve, reject) => {
+        conn.query('SELECT id FROM user WHERE id=?', id, function (err, rows) {
+            if (err) {
+                reject(err);
+            } else {
+                if (rows.length) {
+                    reject('이미 존재하는 ID');
+                } else {
+                    conn.query(
+                        'INSERT INTO user(id, passwd, user_code, phone_number, email, name, car_number) VALUES (?,?,?,?,?,?,?)',
+                        [passwd, user_code, phone_number, email, name, car_number],
+                        (err, rows) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve('회원가입 성공');
+                            }
+                        }
+                    );
+                }
+            }
+        });
+    });
+};
+
+module.exports.login = (id, user_code) => {
+    return new Promise((resolve, reject) => {
+        conn.query(
+            'SELECT * FROM user WHERE id = ? AND user_code = ?',
+            [id, user_code],
+            function (err, rows) {
+                if (err) {
+                    reject(err);
+                } else {
+                    if (rows.length) {
+                        // User authenticated successfully
+                        resolve(rows[0]); // Return the user object
+                    } else {
+                        // Authentication failed
+                        reject('Invalid credentials');
+                    }
+                }
+            }
+        );
+    });
+};
+
+module.exports.findId = (name, phone_number) => {
+    return new Promise((resolve, reject) => {
+        let sql = 'SELECT id FROM user WHERE name = ? and phone_number = ?';
+        conn.query(sql, [name, phone_number], (err, rows, fields) => {
+            if (err) {
+                reject(err);
+            } else {
+                if (rows.length) {
+                    resolve(rows[0]);
+                } else {
+                    reject('존재하지 않는 사용자');
+                }
+            }
+        });
+    });
+};
+
+module.exports.changePw = (id, hashedPassword, phone_number, name) => {
+    return new Promise((resolve, reject) => {
+        let sql = 'UPDATE user\
+        SET passwd = ?\
+        WHERE id = ? AND phone_number = ? AND name = ?';
+        conn.query(sql, [hashedPassword, id, phone_number, name], (err, rows, fields) => {
+            if (err) {
+                reject(err);
+            } else {
+                if (rows.length) {
+                    resolve(rows[0]);
+                } else {
+                    reject('존재하지 않는 사용자');
+                }
+            }
+        });
+    });
+};

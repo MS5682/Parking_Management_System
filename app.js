@@ -8,7 +8,8 @@ var bodyParser = require('body-parser');
 const mysql = require('mysql');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var loginRouter = require('./routes/loginRouter');
+
 
 const conn = mysql.createConnection({
   host: '15.164.231.65',
@@ -52,10 +53,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //router
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/login', loginRouter);
 
-
-
+app.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log('세션 삭제 실패:', err);
+      return res.status(500).send('세션 삭제 실패');
+    }
+    
+    res.clearCookie('session');
+    res.redirect('/'); // 로그아웃 후 리디렉션할 경로
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
