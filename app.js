@@ -5,11 +5,29 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var bodyParser = require('body-parser');
+const mysql = require('mysql');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+const conn = mysql.createConnection({
+  host: '15.164.231.65',
+  user: 'root',
+  password: '1234',
+  port: '53529',
+  database: 'parking_system',
+});
+
 var app = express();
+
+conn.connect(function (err) {
+  if (err) {
+      console.error('Error connecting to MySQL database: ' + err.stack);
+      return;
+  }
+
+  console.log('Connected to MySQL database as id ' + conn.threadId);
+});
 
 app.use(
   session({
