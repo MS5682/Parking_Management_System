@@ -5,30 +5,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-const mysql = require('mysql');
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var postsRouter = require('./routes/posts');
-
-const conn = mysql.createConnection({
-  host: '3.36.218.124',
-  user: 'root',
-  password: '1234',
-  port: '52338',
-  database: 'parking_system',
-});
-
+var boardsRouter = require('./routes/boards');
 var app = express();
-
-conn.connect(function (err) {
-  if (err) {
-      console.error('Error connecting to MySQL database: ' + err.stack);
-      return;
-  }
-
-  console.log('Connected to MySQL database as id ' + conn.threadId);
-});
 
 app.use(
   session({
@@ -55,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
+app.use('/boards', boardsRouter);
 
 
 

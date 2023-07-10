@@ -1,4 +1,5 @@
 const Post = require('../models/Post');
+const Board = require('../models/Board');
 
 exports.createPost = (req, res) => {
   const postData = req.body;
@@ -8,8 +9,11 @@ exports.createPost = (req, res) => {
 };
 
 exports.getPosts = (req, res) => {
-    Post.getPosts((results) => {
-    res.status(200).json(results);
+  const boardCode = req.params.board_code;
+  Post.getPostsByBoard(boardCode, (posts) => {
+    Board.getBoardbyId(boardCode, (boards) => {
+      res.render('posts', { posts: posts, boards: boards });
+    });
   });
 };
 

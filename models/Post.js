@@ -1,15 +1,15 @@
-require('dotenv').config();
-const mysql = require('mysql');
+const pool = require('../db');
 
-const pool  = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
-  database: process.env.DB_DATABASE,
-});
+exports.getPostsByBoard = (boardCode, callback) => {
+  const query = 'SELECT post_code, post_date, title, id, view FROM post WHERE board_code = ?';
+  pool.query(query, [boardCode], (err, results) => {
+    if(err) throw err;
+    callback(results);
+  });
+};
 
-// CREATE
+
+//////////////////
 exports.createPost = (postData, callback) => {
   const query = 'INSERT INTO post (board_code, post_date, title, post_contents, view, file, id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
   pool.query(query, [postData.board_code, postData.post_date, postData.title, postData.post_contents, postData.view, postData.file, postData.id], (err, results) => {
@@ -26,6 +26,8 @@ exports.getPosts = (callback) => {
     callback(results);
   });
 };
+
+
 
 exports.getPostById = (postCode, callback) => {
   const query = 'SELECT * FROM post WHERE post_code = ?';

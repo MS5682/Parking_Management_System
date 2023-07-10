@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<% 
+function formatDate(date) {
+  let d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear().toString().substr(-2); // get last two digits of year
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, day, month].join('/');
+}
+%>
+
+<div class="container mt-5">
+  <% if (boards && boards.length > 0) { %>
+    <h2 class="my-4"><%= boards[0].board_name %></h2>
+  <% } %>
+  <table class="table table-hover table-sm table-bordered">
+    <colgroup>
+       <col style="width: 7%;">
+       <col style="width: *;">
+       <col style="width: 8%;">
+       <col style="width: 1%;">
+    </colgroup>
+    <thead>
+      <tr>
+        <th scope="col">번호</th>
+        <th scope="col">제목</th>
+        <th scope="col">조회수</th>
+        <th scope="col">작성일</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% posts.forEach(function(post){ %>
+        <tr>
+          <td><%= post.board_code %></td>
+          <td><%= post.title %></td>
+          <td><%= post.view %></td>
+          <td><%= formatDate(post.post_date) %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</div>
