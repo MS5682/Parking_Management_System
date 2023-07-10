@@ -20,16 +20,17 @@ exports.join = (req, res) => {
       return userModel.join(id, hashedPassword, user_code, phone_number, email, name, car_number);
     })
     .then((result) => {
-      res.status(200).send('회원가입 성공');
+      res.redirect('/user/login?result=회원가입 성공');
     })
     .catch((error) => {
       // 회원가입 실패
-      res.status(400).send('회원가입 실패');
+      res.redirect('/user/login?result=회원가입 실패');
     });
 };
 
 exports.login = async (req, res) => {
   try {
+    console.log(req.body);
     const id = req.body.id;
     const passwd = req.body.passwd;
     const user_code = req.body.user_code;
@@ -46,20 +47,19 @@ exports.login = async (req, res) => {
           user_code: user_code,
           name: result.name
         };
-        console.log(req.session.user);
         // 인증 성공
-        res.status(200).send('로그인 성공');
+        res.redirect('/user/login?result=로그인 성공');
       } else {
         // 인증 실패
-        res.status(400).send('로그인 실패');
+        res.redirect('/user/login?result=로그인 실패');
       }
     } else {
       // 인증 실패
-      res.status(400).send('로그인 실패');
+      res.redirect('/user/login?result=로그인 실패');
     }
   } catch (error) {
     // 인증 실패
-    res.status(400).send('로그인 실패');
+    res.redirect('/user/login?result=로그인 실패');
   }
 };
 
@@ -71,30 +71,29 @@ exports.findId = (req, res)=>{
   userModel.findId(name, phone_number)
       .then((result) => {
         console.log(result);
-        res.status(200).send(result);
+        res.render('id', { result: result });
       })
       .catch((error) => {
         // Authentication failed
-        res.status(400).send('Invalid credentials');
+        res.redirect('/user/forget?result=해당하는 아이디가 존재하지 않습니다.');
       });
 }
 
-exports.changePw = (req, res) => {
-  var id = req.body.id;
-  var passwd = req.body.passwd;
-  var phone_number = req.body.phone_number;
-  var name = req.body.name;
-  // 비밀번호 해시 생성
-  const saltRounds = 10; // 솔트 반복 횟수
-  bcrypt.hash(passwd, saltRounds)
-    .then((hashedPassword) => {
-      return userModel.changePw(id, hashedPassword, phone_number, name);
-    })
-    .then((result) => {
-      res.status(200).send('비밀번호 변경 성공');
-    })
-    .catch((error) => {
-      // 회원가입 실패
-      res.status(400).send('비밀번호 변경 실패');
-    });
+exports.changePw = async (req, res) => {
+  try {
+    const id = req.body.id;
+    const passwd = req.body.passwd;
+    const phone_number = req.body.phone_number;
+    const name = req.body.name;
+    console.log(id, passwd, phone_number, name)
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(passwd, saltRounds);
+
+    var result = await userModel.changePw(id, hashedPassword, phone_number, name);
+    console.log(result);
+    res.redirect('/user/login?result=비밀번호 변경 성공');
+  } catch (error) {
+    console.log(error);
+    res.redirect('/user/forget?result=비밀번호 변경 실패');
+  }
 };

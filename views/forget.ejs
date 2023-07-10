@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>로그인</title>
+  <title>아이디/비밀번호 찾기</title>
   <meta charset='utf-8'>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -12,6 +12,13 @@
         alert(result);
       }
     });
+    
+    function submitForm() {
+  // 폼을 서버로 제출
+  document.getElementById("myForm").submit();
+  // 페이지 이동
+  window.location.href = "/user/forget";
+} 
   </script>
   
   <style>
@@ -333,7 +340,7 @@ h6 span {
       <div class="row full-height justify-content-center">
         <div class="col-12 text-center align-self-center py-5">
           <div class="section pb-5 pt-5 pt-sm-2 text-center">
-            <h6 class="mb-0 pb-3"><span>로그인 </span><span>회원가입</span></h6>
+            <h6 class="mb-0 pb-3"><span>아이디 찾기 </span><span>비밀번호 변경</span></h6>
                   <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
                   <label for="reg-log"></label>
             <div class="card-3d-wrap mx-auto">
@@ -341,70 +348,50 @@ h6 span {
                 <div class="card-front">
                   <div class="center-wrap">
                     <div class="section text-center">
-                      <h4 class="mb-4 pb-3">로그인</h4>
+                      <h4 class="mb-4 pb-3">아이디 찾기</h4>
 
-                      <form action="/user/login" method="post">
-                        <div>
-                          <input type="radio" id="user_code_0" name="user_code" value="0">
-                          <label for="user_code_0">사용자</label>
-                          <input type="radio" id="user_code_1" name="user_code" value="1">
-                          <label for="user_code_1">관리자</label>
-                        </div>
+                      <form action="/user/id" method="get">
                         <div class="form-group">
-                          <input type="text" name="id" class="form-style" placeholder="아이디" id="id" autocomplete="off" required>
+                          <input type="text" name="name" class="form-style" placeholder="이름" id="name" autocomplete="off" required>
                           <i class="input-icon uil uil-at"></i>
                         </div>  
                         <div class="form-group mt-2">
-                          <input type="password" name="passwd" class="form-style" placeholder="비밀번호" id="passwd" autocomplete="off" required>
+                          <input type="text" name="phone_number" class="form-style" placeholder="전화번호" id="phone_number" autocomplete="off" required>
                           <i class="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <button class="btn mt-4" type="submit">로그인</button>
+                        <button class="btn mt-4" type="submit" onclick="submitForm()">입력</button>
                       </form>
 
 
-                                    <p class="mb-0 mt-4 text-center"><a href="/user/forget" class="link">아이디/비밀번호 찾기</a></p>
+                                    <p class="mb-0 mt-4 text-center"><a href="/user/login" class="link">로그인으로 돌아가기</a></p>
                         </div>
                       </div>
                     </div>
                 <div class="card-back">
                   <div class="center-wrap">
                     <div class="section text-center">
-                      <h4 class="mb-4 pb-3">회원가입</h4>
+                      <h4 class="mb-4 pb-3">비밀번호 변경</h4>
 
-                      <form action="/user/join" method="post">
-                        <div>
-                          <input type="radio" id="user_code_0" name="user_code" value="0">
-                          <label for="user_code_0">사용자</label>
-                          <input type="radio" id="user_code_1" name="user_code" value="1">
-                          <label for="user_code_1">관리자</label>
-                        </div>
+                      <form action="/user/password" method="post">
                         <div class="form-group">
                           <input type="text" name="id" class="form-style" placeholder="아이디" id="id" autocomplete="off" required>
                           <i class="input-icon uil uil-at"></i>
                         </div>  
                         <div class="form-group mt-2">
-                          <input type="password" name="passwd" class="form-style" placeholder="비밀번호" id="passwd" autocomplete="off" required>
+                          <input type="password" name="passwd" class="form-style" placeholder="새로운 비밀번호" id="passwd" autocomplete="off" required>
                           <i class="input-icon uil uil-lock-alt"></i>
                         </div>
                         <div class="form-group mt-3">
                           <input type="text" name="phone_number" class="form-style" placeholder="전화번호" id="phone_number" autocomplete="off" required>
                           <i class="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <div class="form-group mt-4">
-                          <input type="text" name="email" class="form-style" placeholder="이메일" id="email" autocomplete="off" required>
-                          <i class="input-icon uil uil-lock-alt"></i>
-                        </div>
                         <div class="form-group mt-2">
                           <input type="text" name="name" class="form-style" placeholder="이름" id="name" autocomplete="off" required>
                           <i class="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <div class="form-group mt-2">
-                          <input type="text" name="car_number" class="form-style" placeholder="차 번호" id="car_number" autocomplete="off" required>
-                          <i class="input-icon uil uil-lock-alt"></i>
-                        </div>
-                        <button class="btn mt-4" type="submit">회원가입</button>
+                        <button class="btn mt-4" type="submit">입력</button>
                       </form>
-
+                      <p class="mb-0 mt-4 text-center"><a href="/user/login" class="link">로그인으로 돌아가기</a></p>
 
                   
                         </div>

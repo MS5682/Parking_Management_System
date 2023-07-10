@@ -82,11 +82,7 @@ module.exports.changePw = (id, hashedPassword, phone_number, name) => {
             if (err) {
                 reject(err);
             } else {
-                if (rows.length) {
-                    resolve(rows[0]);
-                } else {
-                    reject('존재하지 않는 사용자');
-                }
+                resolve(rows[0]);
             }
         });
     });
