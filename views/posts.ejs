@@ -39,7 +39,7 @@ function formatDate(date) {
       <% posts.forEach(function(post){ %>
         <tr>
           <td><%= post.board_code %></td>
-          <td><%= post.title %></td>
+          <td><a href="/posts/boards/<%= boards[0].board_code %>/<%= post.post_code %>"><%= post.title %></a></td>
           <td><%= post.view %></td>
           <td><%= formatDate(post.post_date) %></td>
         </tr>

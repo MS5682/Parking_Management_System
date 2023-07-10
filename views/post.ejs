@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<% 
+function formatDate(date) {
+  let d = new Date(date);
+  let year = d.getFullYear().toString().substr(-2);
+  let month = ("0" + (d.getMonth() + 1)).slice(-2);
+  let day = ("0" + d.getDate()).slice(-2);
+  return `${year}/${month}/${day}`;
+}
+%>
+
+<div class="container mt-5">
+  <h2 class="my-4"><%= post[0].title %></h2>
+  <div class="mb-3">작성일: <%= formatDate(post[0].post_date) %></div>
+  <div class="mb-3">조회수: <%= post[0].view %></div>
+  <div class="mb-3">파일: <%= post[0].file %></div>
+  <div class="mb-3">작성자: <%= post[0].id %></div>
+  <div class="mb-3">내용: <%= post[0].post_contents %></div>
+</div>

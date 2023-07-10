@@ -1,5 +1,6 @@
 const Post = require('../models/Post');
 const Board = require('../models/Board');
+const Comment = require('../models/Comment');
 
 exports.createPost = (req, res) => {
   const postData = req.body;
@@ -18,10 +19,12 @@ exports.getPosts = (req, res) => {
 };
 
 exports.getPostById = (req, res) => {
-  const postCode = req.params.postCode;
-  Post.getPostById(postCode, (results) => {
-    res.status(200).json(results);
+  const post_code = req.params.post_code;
+  Post.getPostById(post_code, (post) => {
+    Comment.getCommentsByPost(post_code, (comments) => {
+      res.render('post', { post: post , comments: comments});
   });
+});
 };
 
 exports.updatePost = (req, res) => {
