@@ -97,3 +97,14 @@ exports.changePw = async (req, res) => {
     res.redirect('/user/forget?result=비밀번호 변경 실패');
   }
 };
+
+exports.getUserList = (req, res)=>{
+  userModel.getUserList()
+      .then((result) => {
+        res.status(200).send(result);
+      })
+      .catch((error) => {
+        // Authentication failed
+        res.status(400).send("에러발생");
+      });
+}

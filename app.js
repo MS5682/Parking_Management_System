@@ -9,6 +9,7 @@ const mysql = require('mysql');
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/userRouter');
+var parkingRouter = require('./routes/parkingRouter');
 
 require('dotenv').config(); // dotenv 패키지를 사용하여 .env 파일 로드
 const conn = mysql.createConnection({
@@ -55,6 +56,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //router
 app.use('/', indexRouter);
 app.use('/user', userRouter);
+app.use('/parking', parkingRouter);
 
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => {

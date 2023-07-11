@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>자리 현황</title>
+  <style>
+    /* 페이지 전체 영역 */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  
+    /* 표 컨테이너 */
+    .table-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+  
+    /* 표 스타일 */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      table-layout: fixed; /* 표의 크기를 고정으로 설정 */
+    }
+  
+    td {
+      border: 1px solid white;
+      padding: 0;
+      width: 1rem;
+      height: 15rem;
+      text-align: center;
+    }
+  
+    .container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 50px;
+      margin-left: 100px; /* 왼쪽 간격 조절 */
+      margin-right: 100px; /* 오른쪽 간격 조절 */
+    }
+  
+    .section {
+      width: calc(33.33% - 10px);
+      margin: 50px;
+    }
+  
+    .section-header {
+      text-align: center;
+      margin: 10px 0;
+    }
+  </style>
+  
+  
+</head>
+<body>
+    <% include header.ejs %>
+  <h1>자리 현황</h1>
+
+  <div class="container">
+    <div class="section">
+      <% const sectionDataA = result.filter(obj => obj.section === 'A'); %>
+      <h2 class="section-header">Section A</h2>
+      <table>
+        <% for (let row = 1; row <= 2; row++) { %>
+          <tr>
+            <% for (let col = 1; col <= 3; col++) { %>
+              <% const filteredData = sectionDataA.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].user_car_num : null; %>
+
+              <td><%= carNum %></td>
+            <% } %>
+          </tr>
+        <% } %>
+      </table>
+    </div>
+
+    <div class="section">
+      <% const sectionDataC = result.filter(obj => obj.section === 'C'); %>
+      <h2 class="section-header">Section C</h2>
+      <table>
+        <% for (let row = 1; row <= 2; row++) { %>
+          <tr>
+            <% for (let col = 1; col <= 3; col++) { %>
+              <% const filteredData = sectionDataC.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].user_car_num : null; %>
+
+              <td><%= carNum %></td>
+            <% } %>
+          </tr>
+        <% } %>
+      </table>
+    </div>
+
+    <div class="section">
+      <% const sectionDataE = result.filter(obj => obj.section === 'E'); %>
+      <h2 class="section-header">Section E</h2>
+      <table>
+        <% for (let row = 1; row <= 2; row++) { %>
+          <tr>
+            <% for (let col = 1; col <= 3; col++) { %>
+              <% const filteredData = sectionDataE.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].user_car_num : null; %>
+
+              <td><%= carNum %></td>
+            <% } %>
+          </tr>
+        <% } %>
+      </table>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="section">
+      <% const sectionDataB = result.filter(obj => obj.section === 'B'); %>
+      <h2 class="section-header">Section B</h2>
+      <table>
+        <% for (let row = 1; row <= 2; row++) { %>
+          <tr>
+            <% for (let col = 1; col <= 3; col++) { %>
+              <% const filteredData = sectionDataB.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].user_car_num : null; %>
+
+              <td><%= carNum %></td>
+            <% } %>
+          </tr>
+        <% } %>
+      </table>
+    </div>
+
+    <div class="section">
+      <% const sectionDataD = result.filter(obj => obj.section === 'D'); %>
+      <h2 class="section-header">Section D</h2>
+      <table>
+        <% for (let row = 1; row <= 2; row++) { %>
+          <tr>
+            <% for (let col = 1; col <= 3; col++) { %>
+              <% const filteredData = sectionDataD.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].user_car_num : null; %>
+
+              <td><%= carNum %></td>
+            <% } %>
+          </tr>
+        <% } %>
+      </table>
+    </div>
+
+    <div class="section">
+      <% const sectionDataF = result.filter(obj => obj.section === 'F'); %>
+      <h2 class="section-header">Section F</h2>
+      <table>
+        <% for (let row = 1; row <= 2; row++) { %>
+          <tr>
+            <% for (let col = 1; col <= 3; col++) { %>
+              <% const filteredData = sectionDataF.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].user_car_num : null; %>
+
+              <td><%= carNum %></td>
+            <% } %>
+          </tr>
+        <% } %>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>

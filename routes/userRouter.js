@@ -8,6 +8,7 @@ router.post('/login', userController.login);
 router.get('/forget', function(req, res, next) {res.render('forget');});
 router.get('/id', userController.findId);
 router.post('/password', userController.changePw);
+router.get('/list', userController.getUserList);
 
 module.exports = router;
 

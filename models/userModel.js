@@ -45,7 +45,7 @@ module.exports.login = (id, user_code) => {
                 } else {
                     if (rows.length) {
                         // User authenticated successfully
-                        resolve(rows[0]); // Return the user object
+                        resolve(rows); // Return the user object
                     } else {
                         // Authentication failed
                         reject('Invalid credentials');
@@ -64,7 +64,7 @@ module.exports.findId = (name, phone_number) => {
                 reject(err);
             } else {
                 if (rows.length) {
-                    resolve(rows[0]);
+                    resolve(rows);
                 } else {
                     reject('존재하지 않는 사용자');
                 }
@@ -82,7 +82,20 @@ module.exports.changePw = (id, hashedPassword, phone_number, name) => {
             if (err) {
                 reject(err);
             } else {
-                resolve(rows[0]);
+                resolve(rows);
+            }
+        });
+    });
+};
+
+module.exports.getUserList = () => {
+    return new Promise((resolve, reject) => {
+        let sql = 'SELECT * FROM user';
+        conn.query(sql, (err, rows, fields) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
             }
         });
     });
