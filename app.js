@@ -6,20 +6,12 @@ var logger = require('morgan');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 
-require('dotenv').config(); // dotenv 패키지를 사용하여 .env 파일 로드
-const conn = mysql.createConnection({
-  host: process.env.DB_HOST, // 환경변수를 사용하여 값 설정
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
-  database: process.env.DB_DATABASE,
-});
 
 var indexRouter = require('./routes/index');
 var parkingRouter = require('./routes/parkingRouter');
-var usersRouter = require('./routes/users');
 var postsRouter = require('./routes/posts');
 var boardsRouter = require('./routes/boards');
+var userRouter = require('./routes/userRouter');
 
 var app = express();
 
@@ -48,8 +40,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 //router
 app.use('/', indexRouter);
 app.use('/parking', parkingRouter);
-app.use('/users', usersRouter);
+app.use('/posts', postsRouter);
 app.use('/boards', boardsRouter);
+app.use('/user', userRouter);
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
@@ -80,9 +73,11 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+/*
 const PORT = process.env.PORT || 3000; 
 app.listen(PORT, function() {
   console.log(`Server is running on port ${PORT}`);
 });
+*/
 
 module.exports = app;
