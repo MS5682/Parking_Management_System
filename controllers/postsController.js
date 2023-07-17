@@ -57,7 +57,7 @@ exports.updatePost = (req, res) => {
     board_code: req.body.board_code,
     post_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
     title: req.body.title,
-    post_contents: req.body.contents,
+    post_contents: req.body.post_contents,
     view: 0,//수정바람
     file: req.body.file,
     id: req.body.id

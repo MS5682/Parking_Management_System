@@ -35,8 +35,8 @@ exports.getPostByPostCode = (postCode, callback) => {
 
 // UPDATE
 exports.updatePostByPostCode = (postCode, postData, callback) => {
-  const query = 'UPDATE post SET title=?, post_contents=?, file=? WHERE post_code=?';
-  pool.query(query, [postData.board_code, postData.post_date, postData.title, postData.post_contents, postData.view, postData.file, postData.id, postCode], (err, results) => {
+  const query = 'UPDATE post SET title=?, post_contents=?, file=?, post_date=? WHERE post_code=?';
+  pool.query(query, [postData.title, postData.post_contents, postData.file, postData.post_date, postCode], (err, results) => {
     if(err) throw err;
     callback(results);
   });

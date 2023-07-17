@@ -8,9 +8,9 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center mb-4">게시판 목록</h1>
-        <form action="/boards" method="post" class="mb-5">
+        <form id="create-board-form" action="/boards" method="post" class="mb-5">
             <div class="form-group">
-                <input type="text" class="form-control" name="board_name" placeholder="게시판 이름">
+                <input type="text" class="form-control" name="board_name" placeholder="생성할 게시판 이름을 입력해주세요.">
             </div>
             <button type="submit" class="btn btn-primary">게시판 생성</button>
         </form>
@@ -29,6 +29,32 @@
         </div>
     </div>
     <script>
+        $("#create-board-form").submit(function(e) {
+            e.preventDefault(); // Prevent the form from submitting normally
+            var boardName = $("input[name='board_name']").val();
+            if (!boardName) {
+                alert("게시판 이름을 입력해주세요.");
+            } else {
+                // Send an Ajax POST request
+                $.ajax({
+                    url: '/boards',
+                    type: 'POST',
+                    data: { board_name: boardName },
+                    success: function(response) {
+                        // If the request is successful, redirect to the original page
+                        alert("게시판이 생성되었습니다.");
+                        window.location.reload(true);
+                    },
+                    error: function(jqXHR) {
+                        // If there's an error (e.g., the board name already exists), display an alert
+                        if (jqXHR.status == 409) {
+                            alert(jqXHR.responseText);
+                        }
+                    }
+                });
+            }
+        });
+        
         $(".delete-board").click(function() {
             var boardId = $(this).data("board-id");
             var userConfirmed = confirm("게시판을 제거하시겠습니까?");

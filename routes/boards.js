@@ -6,10 +6,5 @@ router.use('/:boardCode/posts', postsRouter);
 
 router.get('/', boardsController.getBoards);//Get all boards
 router.delete('/:boardCode', boardsController.deleteBoard);
-
-
-/*
 router.post('/', boardsController.createBoard);
-router.put('/:boardCode', boardsController.updateBoard);
-router.delete('/:boardCode', boardsController.deleteBoard);*/
 module.exports = router;

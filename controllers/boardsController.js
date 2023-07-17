@@ -30,3 +30,10 @@ exports.deleteBoard = (req, res) => {
         res.status(200).json(result);
     });
 }
+
+exports.createBoard = (req, res) => {
+    const board_name = req.body.board_name;
+    Board.createBoardByBoardData(board_name, (result) =>{
+        res.status(200).json(result);
+    });
+}
