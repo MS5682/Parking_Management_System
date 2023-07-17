@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>게시판 목록</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">게시판 목록</h1>
+        <form action="/boards" method="post" class="mb-5">
+            <div class="form-group">
+                <input type="text" class="form-control" name="board_name" placeholder="게시판 이름">
+            </div>
+            <button type="submit" class="btn btn-primary">게시판 생성</button>
+        </form>
+        <div class="row">
+            <% boards.forEach(function(board) { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= board.board_name %></h5>
+                            <a href="/boards/<%= board.board_code %>/posts" class="btn btn-primary">게시글 보기</a>
+                            <button class="btn btn-danger delete-board" data-board-id="<%= board.board_code %>">게시판 제거</button>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+    <script>
+        $(".delete-board").click(function() {
+            var boardId = $(this).data("board-id");
+            var userConfirmed = confirm("게시판을 제거하시겠습니까?");
+            if (userConfirmed) {
+                $.ajax({
+                    url: '/boards/' + boardId,
+                    type: 'DELETE',
+                    success: function(result) {
+                        window.location.reload(true);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

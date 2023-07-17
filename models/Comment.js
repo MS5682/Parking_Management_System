@@ -1,13 +1,5 @@
 const pool = require('../db');
 
-exports.getBoards = (callback) => {
-    const query = 'SELECT * FROM board';
-    pool.query(query, (err, results) => {
-        if(err) throw err;
-        callback(results);
-    });
-};
-
 exports.getComments = (callback) => {
     const query = 'SELECT * FROM comment';
     pool.query(query, (err, results) => {
@@ -15,8 +7,7 @@ exports.getComments = (callback) => {
         callback(results);
     });
 };
-
-exports.getCommentsByPost = (postCode, callback) => {
+exports.getCommentsByPostCode = (postCode, callback) => {
     const query = 'SELECT * FROM comment WHERE post_code = ?';
     pool.query(query, [postCode], (err, results) => {
         if(err) throw err;
@@ -31,5 +22,31 @@ exports.createComment = (commentData, callback) => {
         callback(results);
     });
 };
+
+exports.updateCommentByCommentCode = (commentCode, commentData, callback) => {
+    const query = 'UPDATE comment SET comment_contents=? WHERE comment_code=?';
+    pool.query(query, [commentData.comment_contents, commentCode], (err, results) => {
+        if(err) throw err;
+        callback(results);
+    });
+};
+
+
+exports.deleteCommentByCommentCode = (commentCode, callback) => {
+    const query = 'DELETE FROM comment WHERE comment_code=?';
+    pool.query(query, [commentCode], (err, results) => {
+        if(err) throw err;
+        callback(results);
+    });
+};
+
+exports.deleteCommentsByPostCode = (postCode, callback) => {
+    const query = 'DELETE FROM comment WHERE post_code=?';
+    pool.query(query, [postCode], (err, results) => {
+        if(err) throw err;
+        callback(results);
+    });
+};
+
 
 module.exports = exports;

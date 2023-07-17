@@ -1,26 +1,14 @@
 const express = require('express');
-const router = express.Router();
-
 const postsController = require('../controllers/postsController');
-
-//게시판 글 목록
-router.get('/boards/:board_code', postsController.getPosts);
-
-//게시글 보기
-router.get('/boards/:board_code/:post_code', postsController.getPostById);
-
-
-
-// CREATE
-router.post('/', postsController.createPost);
-
-// READ ALL POSTS
-router.get('/', postsController.getPosts);
-
-// UPDATE
+const router = express.Router({mergeParams: true});
+router.get('/new', postsController.newPost);
+router.put('/:postCode/comments/:commentCode', postsController.updateComment);
+router.delete('/:postCode/comments/:commentCode', postsController.deleteComment);
+router.post('/:postCode/comments', postsController.createComment);
+router.get('/:postCode/edit', postsController.editPost);
+router.get('/:postCode', postsController.getPost);
 router.put('/:postCode', postsController.updatePost);
-
-// DELETE
 router.delete('/:postCode', postsController.deletePost);
-
+router.get('/', postsController.getPosts);
+router.post('/', postsController.createPost);
 module.exports = router;

@@ -1,35 +1,31 @@
 const pool = require('../db');
 
-exports.getPostsByBoard = (boardCode, callback) => {
-  const query = 'SELECT post_code, post_date, title, id, view FROM post WHERE board_code = ?';
+exports.getPostsByBoardCode = (boardCode, callback) => {
+  const query = `
+    SELECT p.post_code, p.post_date, p.title, p.id, p.view, b.board_name, p.board_code
+    FROM post p
+    JOIN board b ON p.board_code = b.board_code
+    WHERE b.board_code = ?
+    `;
   pool.query(query, [boardCode], (err, results) => {
     if(err) throw err;
     callback(results);
   });
 };
 
-
-//////////////////
 exports.createPost = (postData, callback) => {
-  const query = 'INSERT INTO post (board_code, post_date, title, post_contents, view, file, id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-  pool.query(query, [postData.board_code, postData.post_date, postData.title, postData.post_contents, postData.view, postData.file, postData.id], (err, results) => {
+  const query = `
+    INSERT INTO post (board_code, post_date, title, post_contents, view, file, id)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+  pool.query(query, [postData.board_code, postData.post_date, postData.title,
+     postData.post_contents, postData.view, postData.file, postData.id], (err, results) => {
     if(err) throw err;
-    callback(results);
+    callback(results.insertId);
   });
 };
 
-// READ
-exports.getPosts = (callback) => {
-  const query = 'SELECT * FROM post';
-  pool.query(query, (err, results) => {
-    if(err) throw err;
-    callback(results);
-  });
-};
-
-
-
-exports.getPostById = (postCode, callback) => {
+exports.getPostByPostCode = (postCode, callback) => {
   const query = 'SELECT * FROM post WHERE post_code = ?';
   pool.query(query, [postCode], (err, results) => {
     if(err) throw err;
@@ -38,8 +34,8 @@ exports.getPostById = (postCode, callback) => {
 };
 
 // UPDATE
-exports.updatePost = (postCode, postData, callback) => {
-  const query = 'UPDATE post SET board_code=?, post_date=?, title=?, post_contents=?, view=?, file=?, id=? WHERE post_code=?';
+exports.updatePostByPostCode = (postCode, postData, callback) => {
+  const query = 'UPDATE post SET title=?, post_contents=?, file=? WHERE post_code=?';
   pool.query(query, [postData.board_code, postData.post_date, postData.title, postData.post_contents, postData.view, postData.file, postData.id, postCode], (err, results) => {
     if(err) throw err;
     callback(results);
@@ -47,7 +43,7 @@ exports.updatePost = (postCode, postData, callback) => {
 };
 
 // DELETE
-exports.deletePost = (postCode, callback) => {
+exports.deletePostByPostCode = (postCode, callback) => {
   const query = 'DELETE FROM post WHERE post_code=?';
   pool.query(query, [postCode], (err, results) => {
     if(err) throw err;
