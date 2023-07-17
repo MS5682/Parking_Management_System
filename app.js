@@ -5,11 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-const mysql = require('mysql');
-
-var indexRouter = require('./routes/index');
-var userRouter = require('./routes/userRouter');
-var parkingRouter = require('./routes/parkingRouter');
 
 require('dotenv').config(); // dotenv 패키지를 사용하여 .env 파일 로드
 const conn = mysql.createConnection({
@@ -20,16 +15,13 @@ const conn = mysql.createConnection({
   database: process.env.DB_DATABASE,
 });
 
+var indexRouter = require('./routes/index');
+var parkingRouter = require('./routes/parkingRouter');
+var usersRouter = require('./routes/users');
+var postsRouter = require('./routes/posts');
+var boardsRouter = require('./routes/boards');
+
 var app = express();
-
-conn.connect(function (err) {
-  if (err) {
-      console.error('Error connecting to MySQL database: ' + err.stack);
-      return;
-  }
-
-  console.log('Connected to MySQL database as id ' + conn.threadId);
-});
 
 app.use(
   session({
@@ -55,9 +47,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //router
 app.use('/', indexRouter);
-app.use('/user', userRouter);
 app.use('/parking', parkingRouter);
-
+app.use('/users', usersRouter);
+app.use('/boards', boardsRouter);
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
@@ -86,6 +78,11 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+const PORT = process.env.PORT || 3000; 
+app.listen(PORT, function() {
+  console.log(`Server is running on port ${PORT}`);
 });
 
 module.exports = app;

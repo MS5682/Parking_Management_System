@@ -1,0 +1,14 @@
+const express = require('express');
+const postsController = require('../controllers/postsController');
+const router = express.Router({mergeParams: true});
+router.get('/new', postsController.newPost);
+router.put('/:postCode/comments/:commentCode', postsController.updateComment);
+router.delete('/:postCode/comments/:commentCode', postsController.deleteComment);
+router.post('/:postCode/comments', postsController.createComment);
+router.get('/:postCode/edit', postsController.editPost);
+router.get('/:postCode', postsController.getPost);
+router.put('/:postCode', postsController.updatePost);
+router.delete('/:postCode', postsController.deletePost);
+router.get('/', postsController.getPosts);
+router.post('/', postsController.createPost);
+module.exports = router;

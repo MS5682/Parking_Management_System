@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= board[0].board_name %></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #ccc;
+        }
+        .box .title {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <button class="btn btn-primary" onclick="location.href='/boards/<%= board[0].board_code %>/posts'">뒤로가기</button>
+        <h3 class="text-center mb-4"><%= board[0].board_name %></h3>
+            <div class="box">
+                <div class="title">글 제목: <%= post[0].title %></div>
+                <div>작성일: <%= new Date(post[0].post_date).toLocaleDateString('ko-KR', { year: '2-digit', month: '2-digit', day: '2-digit' }) %></div>
+                <div>조회수: <%= post[0].view %></div>
+                <div>글 내용: <%= post[0].post_contents %></div>
+                <% if (post[0].file) { %>
+                    <div>첨부파일: <a href="<%= post[0].file %>">Download</a></div>
+                <% } %>
+                <div>작성자: <%= post[0].id %></div>
+                <button onclick="window.location.href='/boards/<%= board[0].board_code %>/posts/<%= post[0].post_code %>/edit'" class="btn btn-primary mt-2">수정</button>
+                <button id="deletePostButton" class="btn btn-danger mt-2">삭제</button>
+            </div>
+        <h4 class="my-4">Comments</h4>
+        <% comments.forEach(function(comment, index){ %>
+            <div class="box">
+                <div class="commentContentArea">
+                    <div>댓글 내용: <span class="commentContent"><%= comment.comment_contents %></span></div>
+                    <div class="editComment" style="display: none;">
+                        <textarea class="editCommentField"></textarea>
+                        <button class="confirmEditButton btn btn-primary mt-2">완료</button>
+                        <button class="cancelEditButton btn btn-secondary mt-2">취소</button>
+                    </div>
+                </div>
+                <div>댓글 작성일: <%= new Date(comment.comment_date).toLocaleDateString('ko-KR', { year: '2-digit', month: '2-digit', day: '2-digit' }) %></div>
+                <div>댓글 작성자: <%= comment.id %></div>
+                <button class="updateCommentButton btn btn-primary mt-2" data-comment="<%= comment.comment_code %>">수정</button>
+                <button class="deleteCommentButton btn btn-danger mt-2" data-comment="<%= comment.comment_code %>">삭제</button>
+            </div>
+        <% }) %>
+        <div class="my-4">
+            <form id="commentForm">
+                <div class="form-group">
+                    <label for="comment">댓글 작성:</label>
+                    <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">댓글 달기</button>
+            </form>
+        </div>
+    </div>
+    <script>   
+        $('#commentForm').on('submit', function(e) {
+            e.preventDefault();
+
+            var commentContent = $('#comment').val();
+
+            $.ajax({
+                url: '/boards/<%= board[0].board_code %>/posts/<%= post[0].post_code %>/comments',
+                type: 'POST',
+                data: {
+                    comment: commentContent
+                },
+                success: function(result) {
+                    alert('댓글이 성공적으로 작성되었습니다.');
+                    window.location.reload();
+                }
+            });
+        });
+
+        $('#deletePostButton').on('click', function() {
+            if(confirm('정말로 이 게시글을 삭제하시겠습니까?')) {
+                $.ajax({
+                    url: '/boards/<%= board[0].board_code %>/posts/<%= post[0].post_code %>',
+                    type: 'DELETE',
+                    success: function(result) {
+                        alert('게시글이 삭제되었습니다.');
+                        window.location.href = '/boards/' + '<%= board[0].board_code %>' + '/posts';
+                    }
+                });
+            }
+        });
+
+        $('.updateCommentButton').on('click', function() {
+            var commentCode = $(this).data('comment');
+            var commentBox = $(this).closest('.box');
+            var commentContent = commentBox.find('.commentContent').text();
+
+            // Show edit fields and hide other elements
+            commentBox.find('.editCommentField').val(commentContent);
+            commentBox.find('.editComment').show();
+            commentBox.find('.commentContent, .updateCommentButton, .deleteCommentButton').hide();
+        });
+
+        $('.confirmEditButton').on('click', function() {
+            var commentBox = $(this).closest('.box');
+            var commentCode = commentBox.find('.updateCommentButton').data('comment');
+            var newCommentContent = commentBox.find('.editCommentField').val();
+
+            $.ajax({
+                url: '/boards/<%= board[0].board_code %>/posts/<%= post[0].post_code %>/comments/' + commentCode,
+                type: 'PUT',
+                data: {
+                    comment: newCommentContent
+                },
+                success: function(result) {
+                    window.location.reload();
+                }
+            });
+        });
+
+        $('.cancelEditButton').on('click', function() {
+            var commentBox = $(this).closest('.box');
+            commentBox.find('.editComment').hide();
+            commentBox.find('.commentContent, .updateCommentButton, .deleteCommentButton').show();
+        });
+
+
+        $('.deleteCommentButton').on('click', function() {
+            if(confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
+                var commentCode = $(this).data('comment');
+                $.ajax({
+                    url: '/boards/<%= board[0].board_code %>/posts/<%= post[0].post_code %>/comments/' + commentCode,
+                    type: 'DELETE',
+                    success: function(result) {
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<% 
+function formatDate(date) {
+  let d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear().toString().substr(-2); // get last two digits of year
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, day, month].join('/');
+}
+%>
+
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <button class="btn btn-primary my-3" onclick="location.href='/boards'">뒤로가기</button>
+    <button onclick="window.location.href='/boards/<%= boardCode %>/posts/new'" class="btn btn-success mt-2">글 작성</button>
+  </div>
+  <% if (posts && posts.length > 0) { %>
+    <h2 class="my-4"><%= posts[0].board_name %></h2>
+  <% } %>
+  <table class="table table-hover table-sm table-bordered">
+    <colgroup>
+       <col style="width: 7%;">
+       <col style="width: *;">
+       <col style="width: 8%;">
+       <col style="width: 1%;">
+    </colgroup>
+    <thead>
+      <tr>
+        <th scope="col">번호</th>
+        <th scope="col">제목</th>
+        <th scope="col">조회수</th>
+        <th scope="col">작성일</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% posts.forEach(function(post){ %>
+        <tr>
+          <td><%= post.board_code %></td>
+          <td><a href="/boards/<%= post.board_code %>/posts/<%= post.post_code %>"><%= post.title %></a></td>
+          <td><%= post.view %></td>
+          <td><%= formatDate(post.post_date) %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</div>
