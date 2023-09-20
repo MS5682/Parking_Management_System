@@ -10,7 +10,10 @@ const conn = mysql.createConnection({
 
 module.exports.getCarList = () => {
     return new Promise((resolve, reject) => {
-        let sql = 'SELECT * FROM parking';
+        let sql = 'SELECT parking.*, user.user_code, user.phone_number, user.id\
+        FROM parking\
+        LEFT OUTER JOIN user\
+        ON parking.car_num = user.car_number';
         conn.query(sql, (err, rows, fields) => {
             if (err) {
                 reject(err);

@@ -67,7 +67,7 @@
           <tr>
             <% for (let col = 1; col <= 3; col++) { %>
               <% const filteredData = sectionDataA.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-              <% const carNum = filteredData.length > 0 ? filteredData[0].user_car_num : null; %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
 
               <td><%= carNum %></td>
             <% } %>
@@ -84,7 +84,7 @@
           <tr>
             <% for (let col = 1; col <= 3; col++) { %>
               <% const filteredData = sectionDataC.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-              <% const carNum = filteredData.length > 0 ? filteredData[0].user_car_num : null; %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
 
               <td><%= carNum %></td>
             <% } %>
@@ -101,7 +101,7 @@
           <tr>
             <% for (let col = 1; col <= 3; col++) { %>
               <% const filteredData = sectionDataE.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-              <% const carNum = filteredData.length > 0 ? filteredData[0].user_car_num : null; %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
 
               <td><%= carNum %></td>
             <% } %>
@@ -120,7 +120,7 @@
           <tr>
             <% for (let col = 1; col <= 3; col++) { %>
               <% const filteredData = sectionDataB.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-              <% const carNum = filteredData.length > 0 ? filteredData[0].user_car_num : null; %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
 
               <td><%= carNum %></td>
             <% } %>
@@ -137,7 +137,7 @@
           <tr>
             <% for (let col = 1; col <= 3; col++) { %>
               <% const filteredData = sectionDataD.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-              <% const carNum = filteredData.length > 0 ? filteredData[0].user_car_num : null; %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
 
               <td><%= carNum %></td>
             <% } %>
@@ -154,7 +154,7 @@
           <tr>
             <% for (let col = 1; col <= 3; col++) { %>
               <% const filteredData = sectionDataF.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-              <% const carNum = filteredData.length > 0 ? filteredData[0].user_car_num : null; %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
 
               <td><%= carNum %></td>
             <% } %>
