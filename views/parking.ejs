@@ -26,7 +26,7 @@
     }
   
     td {
-      border: 1px solid white;
+      border: 1px solid black;
       padding: 0;
       width: 1rem;
       height: 15rem;
@@ -50,26 +50,76 @@
       text-align: center;
       margin: 10px 0;
     }
-  </style>
   
+  /* 모달 팝업 스타일 */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  .modal-content {
+    position: absolute;
+    background-color: #fefefe;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  </style>
   
 </head>
 <body>
     <% include header.ejs %>
   <h1>자리 현황</h1>
-
   <div class="container">
+    <div class="modal" id="myModal">
+      <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <div id="modalContent">
+        </div>
+      </div>
+    </div>
     <div class="section">
-      <% const sectionDataA = result.filter(obj => obj.section === 'A'); %>
+      <% const sectionDataA = result.result.filter(obj => obj.section === 'A'); %>
       <h2 class="section-header">Section A</h2>
       <table>
         <% for (let row = 1; row <= 2; row++) { %>
           <tr>
             <% for (let col = 1; col <= 3; col++) { %>
-              <% const filteredData = sectionDataA.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+            <% const filteredData = sectionDataA.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+            <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
+            <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+            <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
+            <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
 
-              <td><%= carNum %></td>
+            <td>
+              <div class="car-info">
+                <% if (carNumExists) { %>
+                  <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
+                   data-phoneNumber="<%= phoneNumber %>" style="width:100%; height:100%; object-fit: cover;" >
+                    <div class="details" style="display: none;">
+                  </div>
+                <% } %>
+              </div>
+              
+            </td>
             <% } %>
           </tr>
         <% } %>
@@ -77,16 +127,29 @@
     </div>
 
     <div class="section">
-      <% const sectionDataC = result.filter(obj => obj.section === 'C'); %>
+      <% const sectionDataC = result.result.filter(obj => obj.section === 'C'); %>
       <h2 class="section-header">Section C</h2>
       <table>
         <% for (let row = 1; row <= 2; row++) { %>
           <tr>
             <% for (let col = 1; col <= 3; col++) { %>
-              <% const filteredData = sectionDataC.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+            <% const filteredData = sectionDataC.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+            <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
+            <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+            <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
+            <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
 
-              <td><%= carNum %></td>
+            <td>
+              <div class="car-info">
+                <% if (carNumExists) { %>
+                  <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
+                   data-phoneNumber="<%= phoneNumber %>" style="width:100%; height:100%; object-fit: cover;" >
+                    <div class="details" style="display: none;">
+                  </div>
+                <% } %>
+              </div>
+              
+            </td>
             <% } %>
           </tr>
         <% } %>
@@ -94,16 +157,29 @@
     </div>
 
     <div class="section">
-      <% const sectionDataE = result.filter(obj => obj.section === 'E'); %>
+      <% const sectionDataE = result.result.filter(obj => obj.section === 'E'); %>
       <h2 class="section-header">Section E</h2>
       <table>
         <% for (let row = 1; row <= 2; row++) { %>
           <tr>
             <% for (let col = 1; col <= 3; col++) { %>
-              <% const filteredData = sectionDataE.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+            <% const filteredData = sectionDataE.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+            <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
+            <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+            <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
+            <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
 
-              <td><%= carNum %></td>
+            <td>
+              <div class="car-info">
+                <% if (carNumExists) { %>
+                  <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
+                   data-phoneNumber="<%= phoneNumber %>" style="width:100%; height:100%; object-fit: cover;" >
+                    <div class="details" style="display: none;">
+                  </div>
+                <% } %>
+              </div>
+              
+            </td>
             <% } %>
           </tr>
         <% } %>
@@ -113,16 +189,29 @@
 
   <div class="container">
     <div class="section">
-      <% const sectionDataB = result.filter(obj => obj.section === 'B'); %>
+      <% const sectionDataB = result.result.filter(obj => obj.section === 'B'); %>
       <h2 class="section-header">Section B</h2>
       <table>
         <% for (let row = 1; row <= 2; row++) { %>
           <tr>
             <% for (let col = 1; col <= 3; col++) { %>
-              <% const filteredData = sectionDataB.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+            <% const filteredData = sectionDataB.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+            <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
+            <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+            <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
+            <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
 
-              <td><%= carNum %></td>
+            <td>
+              <div class="car-info">
+                <% if (carNumExists) { %>
+                  <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
+                   data-phoneNumber="<%= phoneNumber %>" style="width:100%; height:100%; object-fit: cover;" >
+                    <div class="details" style="display: none;">
+                  </div>
+                <% } %>
+              </div>
+              
+            </td>
             <% } %>
           </tr>
         <% } %>
@@ -130,16 +219,29 @@
     </div>
 
     <div class="section">
-      <% const sectionDataD = result.filter(obj => obj.section === 'D'); %>
+      <% const sectionDataD = result.result.filter(obj => obj.section === 'D'); %>
       <h2 class="section-header">Section D</h2>
       <table>
         <% for (let row = 1; row <= 2; row++) { %>
           <tr>
             <% for (let col = 1; col <= 3; col++) { %>
-              <% const filteredData = sectionDataD.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+            <% const filteredData = sectionDataD.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+            <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
+            <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+            <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
+            <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
 
-              <td><%= carNum %></td>
+            <td>
+              <div class="car-info">
+                <% if (carNumExists) { %>
+                  <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
+                   data-phoneNumber="<%= phoneNumber %>" style="width:100%; height:100%; object-fit: cover;" >
+                    <div class="details" style="display: none;">
+                  </div>
+                <% } %>
+              </div>
+              
+            </td>
             <% } %>
           </tr>
         <% } %>
@@ -147,16 +249,29 @@
     </div>
 
     <div class="section">
-      <% const sectionDataF = result.filter(obj => obj.section === 'F'); %>
+      <% const sectionDataF = result.result.filter(obj => obj.section === 'F'); %>
       <h2 class="section-header">Section F</h2>
       <table>
         <% for (let row = 1; row <= 2; row++) { %>
           <tr>
             <% for (let col = 1; col <= 3; col++) { %>
-              <% const filteredData = sectionDataF.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+            <% const filteredData = sectionDataF.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+            <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
+            <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+            <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
+            <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
 
-              <td><%= carNum %></td>
+            <td>
+              <div class="car-info">
+                <% if (carNumExists) { %>
+                  <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
+                   data-phoneNumber="<%= phoneNumber %>" style="width:100%; height:100%; object-fit: cover;" >
+                    <div class="details" style="display: none;">
+                  </div>
+                <% } %>
+              </div>
+              
+            </td>
             <% } %>
           </tr>
         <% } %>
@@ -164,5 +279,42 @@
     </div>
   </div>
 
+
+  <script>
+    document.querySelectorAll('.car-info img').forEach(img => {
+      img.addEventListener('click', function() {
+        const carNum = this.getAttribute('data-carNum');
+        const id = this.getAttribute('data-id');
+        const phoneNumber = this.getAttribute('data-phoneNumber');
+        const userCode =  <%= result.user_code %>;
+        if(userCode == 1){
+        const modal = document.getElementById('myModal');
+        const modalContent = document.getElementById('modalContent');
+        let contentHTML = "";
+        contentHTML += `<br>차 번호: ${carNum}`;
+        if (id !== "" && phoneNumber !== "") {
+          if (id !== "") {
+            contentHTML += `<br>회원 ID : ${id}`;
+          }
+          if (phoneNumber !== "") {
+            contentHTML += `<br>전화번호 : ${phoneNumber}`;
+          }
+        } else {
+          contentHTML += '<br>비회원입니다';
+        }
+        modalContent.innerHTML = contentHTML;
+  
+        modal.style.display = 'block';
+  
+        // 모달 닫기 버튼에 이벤트 핸들러 추가
+        const closeModal = document.getElementById('closeModal');
+        closeModal.addEventListener('click', function() {
+          modal.style.display = 'none';
+        });
+      }
+      });
+    });
+  </script>
+  
 </body>
 </html>
