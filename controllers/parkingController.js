@@ -2,8 +2,8 @@ const express = require('express');
 const parkingModel = require('../models/parkingModel');
 
 exports.getCarList = (req, res)=>{
-  const user_code = 0;
-  //user_code = req.session.user_code;
+  console.log(req.session);
+  const user_code = req.session.user.user_code;
   if(user_code == 0){
     parkingModel.getCarList()
     .then((resultData) => {

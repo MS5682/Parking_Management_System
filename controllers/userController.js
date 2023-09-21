@@ -30,22 +30,18 @@ exports.join = (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    console.log(req.body);
     const id = req.body.id;
     const passwd = req.body.passwd;
     const user_code = req.body.user_code;
-
     const result = await userModel.login(id, user_code);
-
-    if (result) {
-      const passwordMatch = await bcrypt.compare(passwd, result.passwd);
-
+    if (result[0]) {
+      const passwordMatch = await bcrypt.compare(passwd, result[0].passwd);
       if (passwordMatch) {
         // session
         req.session.user = {
           id: id,
           user_code: user_code,
-          name: result.name
+          name: result[0].name
         };
         // 인증 성공
         res.redirect('/user/login?result=로그인 성공');

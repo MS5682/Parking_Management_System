@@ -14,6 +14,14 @@ var boardsRouter = require('./routes/boards');
 var userRouter = require('./routes/userRouter');
 
 var app = express();
+function requireLogin(req, res, next) {
+  if (!req.session.user) {
+    // 로그인되지 않은 경우
+    res.redirect('/user/login'); // 로그인 페이지로 리디렉션
+  } else {
+    next(); // 다음 미들웨어 또는 라우트 핸들러로 이동
+  }
+}
 
 app.use(
   session({
@@ -39,9 +47,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //router
 app.use('/', indexRouter);
-app.use('/parking', parkingRouter);
-app.use('/posts', postsRouter);
-app.use('/boards', boardsRouter);
+app.use('/parking', requireLogin, parkingRouter);
+app.use('/posts', requireLogin, postsRouter);
+app.use('/boards', requireLogin, boardsRouter);
 app.use('/user', userRouter);
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => {
