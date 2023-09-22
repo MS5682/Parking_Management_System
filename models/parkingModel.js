@@ -50,3 +50,21 @@ module.exports.getCarList = () => {
         });
     });
 };
+
+module.exports.getMyCarLoc = (car_number) => {
+    return new Promise((resolve, reject) => {
+        let sql = 'SELECT section,\
+        section_number,\
+        floor\
+        FROM parking\
+        WHERE `exit` IS NULL AND car_num = ?\
+        GROUP BY section, section_number, floor;';
+        conn.query(sql, car_number, (err, rows, fields) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+};

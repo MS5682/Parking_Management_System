@@ -103,7 +103,7 @@ h6 span {
   position: relative;
   width: 500px;
   max-width: 100%;
-  height: 800px;
+  height: 500px;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   perspective: 800px;
@@ -333,7 +333,7 @@ h6 span {
                 <div class="card-front">
                   <div class="center-wrap">
                     <div class="section text-center">
-                      <h4 class="mb-4 pb-3">아이디는 <%= result.id %> 입니다.</h4>
+                      <h4 class="mb-4 pb-3">아이디는 <%= result[0].id %> 입니다.</h4>
                       <button class="btn mt-4" onclick="location.href='/user/login'">확인</button>
 
                         </div>

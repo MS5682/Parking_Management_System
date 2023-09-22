@@ -108,8 +108,9 @@
             <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
             <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
             <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
-
-            <td>
+            
+            <% const carLocExists = result.carLocData[0].section === 'A' && result.carLocData[0].section_number === ((row - 1) * 3 + col); %>
+            <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
               <div class="car-info">
                 <% if (carNumExists) { %>
                   <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
@@ -138,8 +139,9 @@
             <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
             <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
             <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
-
-            <td>
+            
+            <% const carLocExists = result.carLocData[0].section === 'C' && result.carLocData[0].section_number === ((row - 1) * 3 + col); %>
+            <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
               <div class="car-info">
                 <% if (carNumExists) { %>
                   <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
@@ -168,8 +170,9 @@
             <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
             <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
             <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
-
-            <td>
+            
+            <% const carLocExists = result.carLocData[0].section === 'E' && result.carLocData[0].section_number === ((row - 1) * 3 + col); %>
+            <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
               <div class="car-info">
                 <% if (carNumExists) { %>
                   <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
@@ -200,8 +203,9 @@
             <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
             <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
             <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
-
-            <td>
+            
+            <% const carLocExists = result.carLocData[0].section === 'B' && result.carLocData[0].section_number === ((row - 1) * 3 + col); %>
+            <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
               <div class="car-info">
                 <% if (carNumExists) { %>
                   <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
@@ -230,8 +234,9 @@
             <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
             <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
             <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
-
-            <td>
+            
+            <% const carLocExists = result.carLocData[0].section === 'D' && result.carLocData[0].section_number === ((row - 1) * 3 + col); %>
+            <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
               <div class="car-info">
                 <% if (carNumExists) { %>
                   <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
@@ -260,8 +265,9 @@
             <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
             <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
             <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
-
-            <td>
+            
+            <% const carLocExists = result.carLocData[0].section === 'F' && result.carLocData[0].section_number === ((row - 1) * 3 + col); %>
+            <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
               <div class="car-info">
                 <% if (carNumExists) { %>
                   <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
@@ -286,7 +292,7 @@
         const carNum = this.getAttribute('data-carNum');
         const id = this.getAttribute('data-id');
         const phoneNumber = this.getAttribute('data-phoneNumber');
-        const userCode =  <%= result.user_code %>;
+        const userCode =  '<%= result.user_code %>';
         if(userCode == 1){
         const modal = document.getElementById('myModal');
         const modalContent = document.getElementById('modalContent');

@@ -41,6 +41,7 @@ exports.login = async (req, res) => {
         req.session.user = {
           id: id,
           user_code: user_code,
+          car_number : result[0].car_number,
           name: result[0].name
         };
         // 인증 성공
