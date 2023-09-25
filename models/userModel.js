@@ -90,7 +90,9 @@ module.exports.changePw = (id, hashedPassword, phone_number, name) => {
 
 module.exports.getUserList = () => {
     return new Promise((resolve, reject) => {
-        let sql = 'SELECT * FROM user';
+        let sql = 'SELECT id, phone_number, email, name, car_number, user_code\
+        FROM user\
+        ORDER BY user_code DESC';
         conn.query(sql, (err, rows, fields) => {
             if (err) {
                 reject(err);
@@ -100,3 +102,81 @@ module.exports.getUserList = () => {
         });
     });
 };
+
+module.exports.getUserFromValue = (column, value) => {
+    return new Promise((resolve, reject) => {
+        let sql = `SELECT id, phone_number, email, name, car_number, user_code
+        FROM user
+        WHERE ${column} LIKE ?
+        ORDER BY user_code DESC`;
+
+        conn.query(sql, [value], (err, rows, fields) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+};
+
+
+
+module.exports.getUserInfo = (id) => {
+    return new Promise((resolve, reject) => {
+        let sql = 'SELECT id, phone_number, email, name, car_number, user_code\
+        FROM user\
+        WHERE id = ?';
+        conn.query(sql, id, (err, rows, fields) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+};
+
+exports.updateUserInfoWithPassword = (id, hashedPassword, user_code, phone_number, email, name, car_number) => {
+    return new Promise((resolve, reject) => {
+      const sql = 'UPDATE user\
+       SET passwd = ?, user_code = ?, phone_number = ?, email = ?, name = ?, car_number = ?\
+        WHERE id = ?';
+      conn.query(sql, [hashedPassword, user_code, phone_number, email, name, car_number, id], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+  
+  exports.updateUserInfoWithoutPassword = (id, user_code, phone_number, email, name, car_number) => {
+    return new Promise((resolve, reject) => {
+      const sql = 'UPDATE user\
+      SET user_code = ?, phone_number = ?, email = ?, name = ?, car_number = ?\
+      WHERE id = ?';
+      conn.query(sql, [user_code, phone_number, email, name, car_number, id], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+  
+  exports.deleteUserInfo = (id) => {
+    return new Promise((resolve, reject) => {
+      const sql = 'DELETE FROM user WHERE id = ?';
+      conn.query(sql, [id], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+  

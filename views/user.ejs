@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 목록</title>
+</head>
+<body>
+    <h1>회원 목록</h1>
+    
+    <!-- 검색 폼 추가 -->
+    <form method="GET" action="/user/list">
+        <label for="searchField"></label>
+        <select id="searchField" name="field">
+            <option value="name">이름</option>
+            <option value="phone_number">전화번호</option>
+            <option value="car_number">차 번호</option>
+        </select>
+        <label for="searchValue"></label>
+        <input type="text" id="searchValue" name="value">
+        <input type="submit" value="검색">
+    </form>
+
+    <table>
+        <tr>
+            <th>번호</th>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>전화번호</th>
+            <th>이메일</th>
+            <th>차 번호</th>
+            <th>유형</th>
+            <th>수정</th>
+        </tr>
+        <% for (let i = 0; i < result.length; i++) { %>
+            <tr>
+                <td><%= i + 1 %></td>
+                <td><%= result[i].id %></td>
+                <td><%= result[i].name %></td>
+                <td><%= result[i].phone_number %></td>
+                <td><%= result[i].email %></td>
+                <td><%= result[i].car_number %></td>
+                <td>
+                    <% if (result[i].user_code === 0) { %>
+                        사용자
+                    <% } else if (result[i].user_code === 1) { %>
+                        관리자
+                    <% } else { %>
+                        기타
+                    <% } %>
+                </td>
+                <td><a href="/user/update/<%= result[i].id %>">수정</a></td>
+            </tr>
+        <% } %>
+    </table>
+</body>
+</html>

@@ -96,12 +96,109 @@ exports.changePw = async (req, res) => {
 };
 
 exports.getUserList = (req, res)=>{
-  userModel.getUserList()
+  if(req.query.field !== undefined && req.query.value !== undefined){
+    const column = req.query.field;
+    const value = "%" + req.query.value + "%";
+
+
+    userModel.getUserFromValue(column,value)
       .then((result) => {
-        res.status(200).send(result);
+        //res.send({ result: result })
+        console.log(result);
+        res.render('user',{ result: result });
       })
       .catch((error) => {
         // Authentication failed
+        res.status(400).send("에러발생");
+      });
+    }
+    else{
+      userModel.getUserList()
+          .then((result) => {
+            //res.send({ result: result })
+            res.render('user',{ result: result });
+          })
+          .catch((error) => {
+            res.status(400).send("에러발생");
+          });
+      }
+  
+}
+exports.getUserInfo = (req, res)=>{
+  console.log(req.params);
+  const id = req.params.id;
+
+  userModel.getUserInfo(id)
+      .then((result) => {
+        res.render('update', {result : result});
+      })
+      .catch((error) => {
+        res.status(400).send("에러발생");
+      });
+}
+exports.updateUserInfo = (req, res) => {
+  var id = req.params.id;
+  var passwd = req.body.passwd; // 수정된 비밀번호
+  var user_code = req.body.user_code;
+  var phone_number = req.body.phone_number;
+  var email = req.body.email;
+  var name = req.body.name;
+  var car_number = req.body.car_number;
+
+  // 비밀번호를 업데이트해야 할 경우에만 해시 생성
+  if (passwd !== '') {
+    const saltRounds = 10; // 솔트 반복 횟수
+    bcrypt.hash(passwd, saltRounds)
+      .then((hashedPassword) => {
+        return userModel.updateUserInfoWithPassword(id, hashedPassword, user_code, phone_number, email, name, car_number);
+      })
+      .then((result) => {
+        userModel.getUserList()
+          .then((result) => {
+            res.render('user',{ result: result });
+          })
+          .catch((error) => {
+            res.status(400).send("에러발생");
+          })
+      })
+      .catch((error) => {
+        // 회원 정보 수정 실패
+        res.status(400).send("에러발생");
+      });
+  } else {
+    // 비밀번호를 업데이트하지 않을 경우
+    userModel.updateUserInfoWithoutPassword(id, user_code, phone_number, email, name, car_number)
+      .then((result) => {
+        userModel.getUserList()
+          .then((result) => {
+            //res.send({ result: result })
+            res.render('user',{ result: result });
+          })
+          .catch((error) => {
+            res.status(400).send("에러발생");
+          });
+      })
+      .catch((error) => {
+        // 회원 정보 수정 실패
+        res.status(400).send("에러발생");
+      });
+  }
+};
+
+exports.deleteUserInfo = (req, res)=>{
+  const id = req.params.id;
+  userModel.deleteUserInfo(id)
+      .then((result) => {
+        userModel.getUserList()
+        .then((result) => {
+          //res.send({ result: result })
+          res.render('user',{ result: result });
+        })
+        .catch((error) => {
+          res.status(400).send("에러발생");
+        });
+      })
+      .catch((error) => {
         res.status(400).send("에러발생");
       });
 }
