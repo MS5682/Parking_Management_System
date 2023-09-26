@@ -21,7 +21,8 @@ exports.getCarList = async (req, res) => {
       user_code: user_code,
       carLocData: carLocData, // carLocData를 result에 추가
       result: resultData,
-      carCnt: carCnt
+      carCnt: carCnt,
+      floor: floor
     };
 
     //res.send({ result: result })
