@@ -61,19 +61,23 @@ exports.login = async (req, res) => {
 };
 
 
-exports.findId = (req, res)=>{
+exports.findId = (req, res) => {
   var name = req.query.name;
   var phone_number = req.query.phone_number;
 
   userModel.findId(name, phone_number)
-      .then((result) => {
-        console.log(result);
-        res.render('id', { result: result });
-      })
-      .catch((error) => {
-        // Authentication failed
+    .then((result) => {
+      if (result !== undefined) {
+        res.redirect(`/user/login?result=아이디는 ${result[0].id}입니다`);
+      } else {
         res.redirect('/user/forget?result=해당하는 아이디가 존재하지 않습니다.');
-      });
+      }
+    })
+    .catch((error) => {
+      // Handle error appropriately
+      console.error(error);
+      res.redirect('/user/forget?result=해당하는 아이디가 존재하지 않습니다.'); // 에러 발생 시 리디렉션
+    });
 }
 
 exports.changePw = async (req, res) => {
