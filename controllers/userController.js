@@ -45,7 +45,7 @@ exports.login = async (req, res) => {
           name: result[0].name
         };
         // 인증 성공
-        res.redirect('/user/login?result=로그인 성공');
+        res.redirect('/');
       } else {
         // 인증 실패
         res.redirect('/user/login?result=로그인 실패');
