@@ -8,7 +8,7 @@ const conn = mysql.createConnection({
   database: process.env.DB_DATABASE,
 });
 
-module.exports.getCarListDetail = () => {
+module.exports.getCarListDetail = (floor) => {
     return new Promise((resolve, reject) => {
         let sql = 'SELECT\
         section,\
@@ -21,8 +21,9 @@ module.exports.getCarListDetail = () => {
         FROM parking LEFT OUTER JOIN user\
         ON parking.car_num = user.car_number\
         WHERE parking.`exit` IS NULL\
+        AND parking.floor = ?\
         GROUP BY section, section_number, floor;';
-        conn.query(sql, (err, rows, fields) => {
+        conn.query(sql, [floor], (err, rows, fields) => {
             if (err) {
                 reject(err);
             } else {
@@ -32,7 +33,7 @@ module.exports.getCarListDetail = () => {
     });
 };
 
-module.exports.getCarList = () => {
+module.exports.getCarList = (floor) => {
     return new Promise((resolve, reject) => {
         let sql = 'SELECT section,\
         section_number,\
@@ -40,8 +41,9 @@ module.exports.getCarList = () => {
         COUNT(car_num) AS car_num_exists\
         FROM parking\
         WHERE `exit` IS NULL\
+        AND floor = ?\
         GROUP BY section, section_number, floor;';
-        conn.query(sql, (err, rows, fields) => {
+        conn.query(sql, [floor], (err, rows, fields) => {
             if (err) {
                 reject(err);
             } else {
@@ -51,15 +53,32 @@ module.exports.getCarList = () => {
     });
 };
 
-module.exports.getMyCarLoc = (car_number) => {
+module.exports.getMyCarLoc = (car_number, floor) => {
     return new Promise((resolve, reject) => {
         let sql = 'SELECT section,\
         section_number,\
         floor\
         FROM parking\
         WHERE `exit` IS NULL AND car_num = ?\
+        AND floor = ?\
         GROUP BY section, section_number, floor;';
-        conn.query(sql, car_number, (err, rows, fields) => {
+        conn.query(sql, [car_number, floor], (err, rows, fields) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+};
+
+module.exports.getCarCnt = (floor) => {
+    return new Promise((resolve, reject) => {
+        let sql = 'SELECT COUNT(car_num) AS car_cnt\
+        FROM parking\
+        WHERE `exit` IS NULL\
+        AND floor = ?';
+        conn.query(sql, [floor], (err, rows, fields) => {
             if (err) {
                 reject(err);
             } else {
