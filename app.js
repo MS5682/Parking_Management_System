@@ -12,6 +12,8 @@ var boardsRouter = require('./routes/boards');
 var userRouter = require('./routes/userRouter');
 
 var app = express();
+// const cors = require('cors');
+// app.use(cors());                // app과의 통신을 위한 cors(보안상 문제가 있어 테스트 용도로 사용중)
 function requireLogin(req, res, next) {
   if (!req.session.user) {
     // 로그인되지 않은 경우
@@ -29,6 +31,7 @@ app.use(
       cookie: { secure: false }, // Set 'secure' to 'true' if using HTTPS
   })
 );
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
