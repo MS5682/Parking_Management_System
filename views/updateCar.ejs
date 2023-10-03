@@ -27,7 +27,7 @@
         <!-- 추가하기 버튼 -->
         <label for="newCar">새로운 차 번호:</label>
         <input type="text" id="newCar" name="newCar">
-        <button type="button" onclick="addCar('<%= result.userInfo[0].id %>')">추가하기</button>
+        <button type="button" onclick="addCar('<%= result.userInfo[0].id %>')" >추가하기</button>
 
         <!-- ... (기존 버튼들) ... -->
     </form>
@@ -46,8 +46,7 @@
                 .then(response => {
                     if (response.ok) {
                         // 수정 성공 시, 화면 업데이트
-                        var carSpan = document.getElementById('car_number' + newCarNumber);
-                        carSpan.innerText = newCarNumber;
+                        location.reload();
                     } else {
                         alert('수정에 실패했습니다.');
                     }
@@ -60,13 +59,12 @@
             if (deletionConfirmation) {
                 // 서버로 삭제 요청 보내기
                 fetch('/user/deleteCar/' + carNumber, {
-                    method: 'DELETE',
+                    method: 'POST',
                 })
                 .then(response => {
                     if (response.ok) {
                         // 삭제 성공 시, 화면에서 제거
-                        var carElement = document.getElementById('car_number' + carNumber).parentElement;
-                        carElement.remove();
+                        location.reload();
                     } else {
                         alert('삭제에 실패했습니다.');
                     }
@@ -87,29 +85,7 @@
                 .then(response => {
                     if (response.ok) {
                         // 추가 성공 시, 화면 업데이트
-                        var ulElement = document.getElementById('carList');
-                        var liElement = document.createElement('li');
-                        var carSpan = document.createElement('span');
-                        carSpan.id = 'car_number' + newCarNumber;
-                        carSpan.innerText = newCarNumber;
-                        var editButton = document.createElement('button');
-                        editButton.type = 'button';
-                        editButton.textContent = '수정하기';
-                        editButton.onclick = function() {
-                            editCar(userId, newCarNumber);
-                        };
-                        var deleteButton = document.createElement('button');
-                        deleteButton.type = 'button';
-                        deleteButton.textContent = '삭제';
-                        deleteButton.onclick = function() {
-                            deleteCar(userId, newCarNumber);
-                        };
-
-                        liElement.appendChild(carSpan);
-                        liElement.appendChild(editButton);
-                        liElement.appendChild(deleteButton);
-                        ulElement.appendChild(liElement);
-                        document.getElementById('newCar').value = '';
+                        location.reload();
                     } else {
                         alert('추가에 실패했습니다.');
                     }

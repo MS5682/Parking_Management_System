@@ -19,6 +19,6 @@ router.post('/update/:id', checkSessionAndUserType, userController.updateUserInf
 router.post('/delete/:id', checkSessionAndUserType, userController.deleteUserInfo);
 router.post('/updateCar/:current/:new', checkSessionAndUserType, userController.updateUserCar);
 router.post('/addCar/:id/:car_number', checkSessionAndUserType, userController.addUserCar);
-router.post('/deleteCar/:id/:car_number', checkSessionAndUserType, userController.deleteUserCar);
+router.post('/deleteCar/:car_number', checkSessionAndUserType, userController.deleteUserCar);
 module.exports = router;
 

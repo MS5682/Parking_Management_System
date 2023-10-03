@@ -234,3 +234,117 @@ exports.updateUserInfo = (id) => {
     });
   };
   
+
+  exports.updateUserCar = (current_car, new_car) => {
+    return new Promise((resolve, reject) => {
+      const sql = 'UPDATE car\
+      SET car_number = ?\
+      WHERE car_number = ?;';
+      conn.query(sql, [new_car, current_car], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+  
+  exports.addUserCar = (id, car_number) => {
+    return new Promise((resolve, reject) => {
+      const sql = 'INSERT INTO car(id, car_number) VALUES (?,?)';
+      conn.query(sql, [id, car_number], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+  
+  exports.deleteUserCar = (car_number) => {
+    return new Promise((resolve, reject) => {
+      const sql = 'DELETE FROM car WHERE car_number = ?';
+      conn.query(sql, [car_number], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+  exports.updateName = (userId, name) => {
+    return new Promise((resolve, reject) => {
+      const sql = 'UPDATE user\
+      SET name = ?\
+      WHERE id = ?;';
+      conn.query(sql, [name, userId], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+
+
+  exports.updatePhoneNumber = (userId, phone_number) => {
+    return new Promise((resolve, reject) => {
+      const sql = 'UPDATE user\
+      SET phone_number = ?\
+      WHERE id = ?;';
+      conn.query(sql, [phone_number, userId], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+
+  exports.updateEmail = (userId, email) => {
+    return new Promise((resolve, reject) => {
+      const sql = 'UPDATE user\
+      SET email = ?\
+      WHERE id = ?;';
+      conn.query(sql, [email, userId], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+  exports.updateDong = (userId, dong) => {
+    return new Promise((resolve, reject) => {
+      const sql = 'UPDATE user\
+      SET dong = ?\
+      WHERE id = ?;';
+      conn.query(sql, [dong, userId], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+  exports.updateHo = (userId, ho) => {
+    return new Promise((resolve, reject) => {
+      const sql = 'UPDATE user\
+      SET ho = ?\
+      WHERE id = ?;';
+      conn.query(sql, [ho, userId], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };

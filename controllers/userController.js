@@ -27,7 +27,6 @@ const bcrypt = require('bcrypt');
 //     });
 // };
 exports.join = (req, res) => {
-  console.log(req.body);
   var id = req.body.id_signup;
   var passwd = req.body.passwd_signup;
   // 비밀번호 해시 생성
@@ -62,7 +61,6 @@ exports.login = async (req, res) => {
           ho: result[0].ho,
           car_number : car_number
         };
-        console.log(req.session.user);
         // 인증 성공
         res.redirect('/');
       } else {
@@ -154,8 +152,6 @@ exports.getUserList = (req, res)=>{
 
     userModel.getUserFromValue(column,value)
       .then((result) => {
-        //res.send({ result: result })
-        console.log(result);
         res.render('user',{ result: result });
       })
       .catch((error) => {
@@ -166,8 +162,6 @@ exports.getUserList = (req, res)=>{
     else{
       userModel.getUserList()
           .then((result) => {
-            //res.send({ result: result })
-            console.log(result);
             res.render('user',{ result: result });
           })
           .catch((error) => {
@@ -178,15 +172,12 @@ exports.getUserList = (req, res)=>{
 }
 exports.getUserInfo = async (req, res) => {
   try {
-    console.log(req.params);
     const id = req.params.id;
 
     const userInfo = await userModel.getUserInfo(id);
     const result = {
       userInfo: userInfo
     };
-    console.log(result);
-    //res.send( {result : result  })
     res.render('update', {result : result  });
   } catch (error) {
     res.status(400).send("에러발생");
@@ -194,7 +185,6 @@ exports.getUserInfo = async (req, res) => {
 }
 exports.getUserCarInfo = async (req, res) => {
   try {
-    console.log(req.params);
     const id = req.params.id;
 
     const userInfo = await userModel.getUserInfo(id);
@@ -203,36 +193,54 @@ exports.getUserCarInfo = async (req, res) => {
       userInfo: userInfo, 
       userCar: userCar
     };
-    console.log(result);
-    //res.send( {result : result  })
     res.render('updateCar', {result : result  });
   } catch (error) {
     res.status(400).send("에러발생");
   }
 }
-exports.updateUserInfo = (req, res)=>{
-  const id = req.params.id;
-  console.log(req.body);
-  userModel.updateUserInfo(id)
-      .then((result) => {
-        userModel.getUserList()
-        .then((result) => {
-          //res.send({ result: result })
-          res.render('user',{ result: result });
-        })
-        .catch((error) => {
-          res.status(400).send("에러발생");
-        });
-      })
-      .catch((error) => {
-        res.status(400).send("에러발생");
-      });
-}
+// 컨트롤러 코드
+exports.updateUserInfo = async (req, res) => {
+  const userId = req.params.id;
+  const name = req.body.name;
+  const phone_number = req.body.phone_number;
+  const email = req.body.email;
+  const dong = req.body.dong;
+  const ho = req.body.ho;
+
+  try {
+    // name이 빈 문자열이 아닌 경우에만 업데이트
+    if (name !== '') {
+      await userModel.updateName(userId, name);
+    }
+    // phone_number 업데이트
+    if (phone_number !== '') {
+      await userModel.updatePhoneNumber(userId, phone_number);
+    }
+
+    // email이 빈 문자열이 아닌 경우에만 업데이트
+    if (email !== '') {
+     await userModel.updateEmail(userId, email);
+    }
+
+    // dong이 빈 문자열이 아닌 경우에만 업데이트
+    if (dong !== '') {
+      await userModel.updateDong(userId, dong);
+    }
+
+    // ho가 빈 문자열이 아닌 경우에만 업데이트
+    if (ho !== '') {
+      await userModel.updateHo(userId, ho);
+    }
+    res.redirect('/user/update/' + req.params.id);
+  } catch (error) {
+    res.status(400).send("에러발생");
+  }
+};
+
 
 
 exports.deleteUserInfo = (req, res)=>{
   const id = req.params.id;
-  console.log(id);
   userModel.deleteUserInfo(id)
       .then((result) => {
         userModel.getUserList()
@@ -252,17 +260,9 @@ exports.deleteUserInfo = (req, res)=>{
 exports.updateUserCar = (req, res)=>{
   const current_car = req.params.current;
   const new_car = req.params.new;
-  console.log(req.params);
-  userModel.updateUserInfo()
+  userModel.updateUserCar(current_car, new_car)
       .then((result) => {
-        userModel.getUserList()
-        .then((result) => {
-          //res.send({ result: result })
-          res.render('user',{ result: result });
-        })
-        .catch((error) => {
-          res.status(400).send("에러발생");
-        });
+        res.send({ result: result });
       })
       .catch((error) => {
         res.status(400).send("에러발생");
@@ -272,17 +272,9 @@ exports.updateUserCar = (req, res)=>{
 exports.addUserCar = (req, res)=>{
   const id = req.params.id;
   const car_number = req.params.car_number;
-  console.log(req.params);
-  userModel.updateUserInfo()
+  userModel.addUserCar(id, car_number)
       .then((result) => {
-        userModel.getUserList()
-        .then((result) => {
-          //res.send({ result: result })
-          res.render('user',{ result: result });
-        })
-        .catch((error) => {
-          res.status(400).send("에러발생");
-        });
+        res.send({ result: result });
       })
       .catch((error) => {
         res.status(400).send("에러발생");
@@ -290,19 +282,10 @@ exports.addUserCar = (req, res)=>{
 }
 
 exports.deleteUserCar = (req, res)=>{
-  const id = req.params.id;
   const car_number = req.params.car_number;
-  console.log(req.params);
-  userModel.updateUserInfo()
+  userModel.deleteUserCar(car_number)
       .then((result) => {
-        userModel.getUserList()
-        .then((result) => {
-          //res.send({ result: result })
-          res.render('user',{ result: result });
-        })
-        .catch((error) => {
-          res.status(400).send("에러발생");
-        });
+        res.send({ result: result });
       })
       .catch((error) => {
         res.status(400).send("에러발생");

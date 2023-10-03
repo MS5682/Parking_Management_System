@@ -30,7 +30,7 @@
         <input type="text" id="hoInput" name="ho" style="display: none;">
         <button type="button" onclick="toggleEdit('hoInput', 'hoSpan')">수정하기</button><br>
 
-        <input type="submit" value="수정">
+        <input type="submit" value="수정" onclick="reloadPage()">
         <button type="button" onclick="confirmDelete()">삭제</button>
     </form>
     
@@ -59,9 +59,12 @@
                 form.action = '/user/delete/' + '<%= result.userInfo[0].id %>'; 
                 document.body.appendChild(form);
                 form.submit();
+                reloadPage();
             }
         }
-
+        function reloadPage() {
+            location.reload();
+        }
     </script>
 </body>
 </html>
