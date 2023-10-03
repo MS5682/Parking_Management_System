@@ -45,39 +45,28 @@ exports.join = (req, res) => {
     });
 };
 
-exports.login = async (req, res) => {
-  try {
-    const id = req.body.id;
-    const passwd = req.body.passwd;
-    const result = await userModel.login(id);
-    if (result[0]) {
-      const passwordMatch = await bcrypt.compare(passwd, result[0].passwd);
-      if (passwordMatch) {
-        const car_number = await userModel.getUserCar(id);
-        // session
-        req.session.user = {
-          id: id,
-          name: result[0].name,
-          dong: result[0].dong,
-          ho: result[0].ho,
-          car_number : car_number
-        };
-        console.log(req.session.user);
-        // 인증 성공
-        res.redirect('/');
-      } else {
-        // 인증 실패
-        res.redirect('/user/login?result=로그인 실패');
+exports.userLogin = async function(req, res){
+  const {id, password} = req.body;
+  const result = await userModel.login(id);
+  if(result[0]){
+    const passwordMatch = await bcrypt.compare(password, result[0].passwd);
+    if(passwordMatch){
+      const car_number = await userModel.getUserCar(id);
+      req.session.user = {
+        id: id,
+        name: result[0].name,
+        dong: result[0].dong,
+        ho: result[0].ho,
+        car_number: car_number
       }
-    } else {
-      // 인증 실패
-      res.redirect('/user/login?result=로그인 실패');
+      res.status(200).json({success : true, id: id, car_number: car_number, name: result[0].name, dong: result[0].dong, ho: result[0].ho});
     }
-  } catch (error) {
-    // 인증 실패
-    res.redirect('/user/login?result=로그인 실패');
+    else{
+      res.status(401).json({success: false, message: 'Invalid Credentials'});
+    }
+
   }
-};
+}
 
 exports.adminLogin = async (req, res) => {
   try {

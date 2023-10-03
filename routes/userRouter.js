@@ -20,5 +20,9 @@ router.post('/delete/:id', checkSessionAndUserType, userController.deleteUserInf
 router.post('/updateCar/:current/:new', checkSessionAndUserType, userController.updateUserCar);
 router.post('/addCar/:id/:car_number', checkSessionAndUserType, userController.addUserCar);
 router.post('/deleteCar/:id/:car_number', checkSessionAndUserType, userController.deleteUserCar);
+
+// user login 추가
+router.post('/userLogin', userController.userLogin);
+
 module.exports = router;
 
