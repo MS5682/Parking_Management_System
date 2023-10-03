@@ -110,3 +110,45 @@ module.exports.getCarExist = (section, sectionNumber, floor) => {
     });
 };
 
+module.exports.checkParkingSpace = (section, sectionNumber, floor) => {
+    return new Promise((resolve, reject) => {
+        let sql = 'SELECT *\
+        FROM parking\
+        WHERE section = ? AND section_number = ? AND floor = ? AND `exit` IS NULL;';
+        conn.query(sql, [section, sectionNumber, floor], (err, rows, fields) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+};
+
+module.exports.updateParkingInfo = (section, sectionNumber, floor, carNumber, currentTime) => {
+    return new Promise((resolve, reject) => {
+        let sql = 'UPDATE parking\
+        SET `exit` = ?\
+        WHERE section = ? AND section_number = ? AND floor = ? AND car_num = ? AND `exit` IS NULL;';
+        conn.query(sql, [currentTime, section, sectionNumber, floor, carNumber], (err, rows, fields) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+};
+module.exports.addParkingInfo = (section, sectionNumber, floor, carNumber, currentTime) => {
+    return new Promise((resolve, reject) => {
+        let sql = 'INSERT INTO parking (car_num, section, section_number, entrance, floor)\
+        VALUES (?, ?, ?, ?, ?);';
+        conn.query(sql, [carNumber, section, sectionNumber, currentTime, floor], (err, rows, fields) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+};
