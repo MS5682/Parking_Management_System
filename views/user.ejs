@@ -27,9 +27,10 @@
             <th>이름</th>
             <th>전화번호</th>
             <th>이메일</th>
+            <th>동</th> 
+            <th>호</th>
             <th>차 번호</th>
-            <th>유형</th>
-            <th>수정</th>
+         
         </tr>
         <% for (let i = 0; i < result.length; i++) { %>
             <tr>
@@ -38,17 +39,11 @@
                 <td><%= result[i].name %></td>
                 <td><%= result[i].phone_number %></td>
                 <td><%= result[i].email %></td>
-                <td><%= result[i].car_number %></td>
-                <td>
-                    <% if (result[i].user_code === 0) { %>
-                        사용자
-                    <% } else if (result[i].user_code === 1) { %>
-                        관리자
-                    <% } else { %>
-                        기타
-                    <% } %>
-                </td>
-                <td><a href="/user/update/<%= result[i].id %>">수정</a></td>
+                <td><%= result[i].dong %></td>
+                <td><%= result[i].ho %></td> 
+                <td><%= result[i].car_number %></td> 
+                <td><a href="/user/update/<%= result[i].id %>">회원정보 수정</a></td>
+                <td><a href="/user/updateCar/<%= result[i].id %>">차 정보 수정</a></td>
             </tr>
         <% } %>
     </table>

@@ -6,8 +6,6 @@ var logger = require('morgan');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 
-
-var indexRouter = require('./routes/index');
 var parkingRouter = require('./routes/parkingRouter');
 var postsRouter = require('./routes/posts');
 var boardsRouter = require('./routes/boards');
@@ -46,11 +44,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //router
-app.use('/', indexRouter);
 app.use('/parking', requireLogin, parkingRouter);
 app.use('/posts', requireLogin, postsRouter);
 app.use('/boards', requireLogin, boardsRouter);
 app.use('/user', userRouter);
+app.use('/', (req, res) => {
+  res.redirect('/user/login');
+});
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {

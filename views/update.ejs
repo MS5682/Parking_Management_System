@@ -6,49 +6,48 @@
 </head>
 <body>
     <h1>회원 정보 수정</h1>
-    <form method="POST" action="/user/update/<%= result[0].id %>" onsubmit="return validateForm()">
+    <form method="POST" action="/user/update/<%= result.userInfo[0].id %>" onsubmit="return validateForm()">
         <label for="id">아이디:</label>
-        <span id="id"><%= result[0].id %></span><br>
-        <label for="passwd">비밀번호:</label>
-        <input type="password" id="passwd" name="passwd"><br>
+        <span id="id"><%= result.userInfo[0].id %></span><br>
         <label for="name">이름:</label>
-        <input type="text" id="name" name="name" value="<%= result[0].name %>"><br>
+        <span id="nameSpan"><%= result.userInfo[0].name %></span>
+        <input type="text" id="nameInput" name="name" style="display: none;">
+        <button type="button" onclick="toggleEdit('nameInput', 'nameSpan')">수정하기</button><br>
         <label for="phone_number">전화번호:</label>
-        <input type="text" id="phone_number" name="phone_number" value="<%= result[0].phone_number %>"><br>
+        <span id="phone_numberSpan"><%= result.userInfo[0].phone_number %></span>
+        <input type="text" id="phone_numberInput" name="phone_number" style="display: none;">
+        <button type="button" onclick="toggleEdit('phone_numberInput', 'phone_numberSpan')">수정하기</button><br>
         <label for="email">이메일:</label>
-        <input type="text" id="email" name="email" value="<%= result[0].email %>"><br>
-        <label for="car_number">차 번호:</label>
-        <input type="text" id="car_number" name="car_number" value="<%= result[0].car_number %>"><br>
-        <label for="user_code">유형:</label>
-        <select id="user_code" name="user_code">
-            <option value="0" <% if (result[0].user_code === 0) { %>selected<% } %>>사용자</option>
-            <option value="1" <% if (result[0].user_code === 1) { %>selected<% } %>>관리자</option>
-        </select><br>
+        <span id="emailSpan"><%= result.userInfo[0].email %></span>
+        <input type="text" id="emailInput" name="email" style="display: none;">
+        <button type="button" onclick="toggleEdit('emailInput', 'emailSpan')">수정하기</button><br>
+        <label for="dong">동:</label>
+        <span id="dongSpan"><%= result.userInfo[0].dong %></span>
+        <input type="text" id="dongInput" name="dong" style="display: none;">
+        <button type="button" onclick="toggleEdit('dongInput', 'dongSpan')">수정하기</button><br>
+        <label for="ho">호수:</label>
+        <span id="hoSpan"><%= result.userInfo[0].ho %></span>
+        <input type="text" id="hoInput" name="ho" style="display: none;">
+        <button type="button" onclick="toggleEdit('hoInput', 'hoSpan')">수정하기</button><br>
+
         <input type="submit" value="수정">
         <button type="button" onclick="confirmDelete()">삭제</button>
     </form>
-
+    
     <script>
-        function validateForm() {
-            var id = document.getElementById('id').value;
-            var name = document.getElementById('name').value;
-            var phone_number = document.getElementById('phone_number').value;
-            var car_number = document.getElementById('car_number').value;
-
-            // 이메일은 비어도 되도록 설정했으므로 검증하지 않음
-
-            if (id === '' || name === '' || phone_number === '' || car_number === '') {
-                alert('모든 필드를 입력하세요.');
-                return false;
+        function toggleEdit(inputId, spanId) {
+            var inputElement = document.getElementById(inputId);
+            var spanElement = document.getElementById(spanId);
+            
+            if (inputElement.style.display === 'none') {
+                inputElement.style.display = 'inline';
+                spanElement.style.display = 'none';
+                inputElement.value = spanElement.innerText; // 수정 버튼을 눌렀을 때 값을 표시
+            } else {
+                inputElement.style.display = 'none';
+                spanElement.style.display = 'inline';
+                spanElement.innerText = inputElement.value;
             }
-
-            var confirmation = confirm('수정을 진행하시겠습니까?'); // 수정 확인 대화 상자
-
-            if (!confirmation) {
-                return false; // 수정 취소
-            }
-
-            return true;
         }
 
         function confirmDelete() {
@@ -57,11 +56,12 @@
             if (deletionConfirmation) {
                 var form = document.createElement('form');
                 form.method = 'POST';
-                form.action = '/user/delete/<%= result[0].id %>'; 
+                form.action = '/user/delete/' + '<%= result.userInfo[0].id %>'; 
                 document.body.appendChild(form);
                 form.submit();
             }
         }
+
     </script>
 </body>
 </html>
