@@ -141,13 +141,36 @@ module.exports.updateParkingInfo = (section, sectionNumber, floor, carNumber, cu
 };
 module.exports.addParkingInfo = (section, sectionNumber, floor, carNumber, currentTime) => {
     return new Promise((resolve, reject) => {
-        let sql = 'INSERT INTO parking (car_num, section, section_number, entrance, floor)\
-        VALUES (?, ?, ?, ?, ?);';
+        // SQL 쿼리: 주차 정보 추가
+        let sql = 'INSERT INTO parking (car_num, section, section_number, entrance, floor) VALUES (?, ?, ?, ?, ?);';
         conn.query(sql, [carNumber, section, sectionNumber, currentTime, floor], (err, rows, fields) => {
             if (err) {
                 reject(err);
             } else {
-                resolve(rows);
+                // 주차 정보 추가 성공 후, car 테이블에서 해당 carNumber를 찾습니다.
+                let checkCarSql = 'SELECT * FROM car WHERE car_number = ?';
+                conn.query(checkCarSql, [carNumber], (err, carRows, fields) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        // carNumber가 car 테이블에 존재하지 않으면 알림 추가
+                        if (carRows.length === 0) {
+                            let notifyContext = `방문차량 ${carNumber}이 주차되었습니다.`;
+                            
+                            // 알림 테이블에 알림 추가
+                            let notifySql = 'INSERT INTO notification (context, notify_time) VALUES (?, ?);';
+                            conn.query(notifySql, [notifyContext, currentTime], (err, notifyRows, fields) => {
+                                if (err) {
+                                    reject(err);
+                                } else {
+                                    resolve(rows); // 주차 정보 추가 성공 및 알림 추가 성공
+                                }
+                            });
+                        } else {
+                            resolve(rows); // 주차 정보 추가 성공 (carNumber가 이미 car 테이블에 존재)
+                        }
+                    }
+                });
             }
         });
     });

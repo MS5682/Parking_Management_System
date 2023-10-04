@@ -35,15 +35,9 @@ exports.getCarList = async (req, res) => {
 };
 
 exports.updateParking = async (req, res) => {
+  
   const parkingData = req.body;
-  // const parkingData  = 
-  // [
-  //   { section: 'A', sectionNumber: 1, floor: 1, carNumber: '차량1' },
-  //   { section: 'B', sectionNumber: 2, floor: 1, carNumber: '차량2' },
-  //   { section: 'A', sectionNumber: 3, floor: 1, carNumber: '차량3' }
-  // ];
-
-  const currentTime = new Date();
+  const currentTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
   for (let floor = 1; floor <= 3; floor++) {  //임의의 층수
     for (const section of ['A', 'B', 'C', 'D']) { //임의의 섹션
       for (let sectionNumber = 1; sectionNumber <= 4; sectionNumber++) {  //임의의 섹션 넘버
