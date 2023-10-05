@@ -11,7 +11,6 @@ function checkAdminSession(req, res, next) {
 
 router.get('/', checkAdminSession, notifyController.getNotification);
 router.post('/delete/:notify_id', checkAdminSession, notifyController.deleteNotification);
-router.post('/longTerm', checkAdminSession, notifyController.notifyLongTermParking);
 
 module.exports = router;
 

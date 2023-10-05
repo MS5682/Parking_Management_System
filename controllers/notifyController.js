@@ -22,13 +22,3 @@ const notifyModel = require('../models/notifyModel');
           res.status(400).send("에러발생");
         });
   }
-
-  exports.notifyLongTermParking = (req, res)=>{
-    notifyModel.notifyLongTermParking()
-        .then((result) => {
-          res.send({ result: result });
-        })
-        .catch((error) => {
-          res.status(400).send("에러발생");
-        });
-  }
