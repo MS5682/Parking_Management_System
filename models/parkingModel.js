@@ -13,7 +13,7 @@ module.exports.getCarListDetail = (floor) => {
         MAX(user.id) AS id\
         FROM parking\
         LEFT OUTER JOIN car ON parking.car_num = car.car_number\
-        LEFT OUTER JOIN user ON car.user_id = user.id\
+        LEFT OUTER JOIN user ON car.id = user.id\
         WHERE parking.`exit` IS NULL\
         AND parking.floor = ?\
         GROUP BY parking.section, parking.section_number, parking.floor;';

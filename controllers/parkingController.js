@@ -3,22 +3,21 @@ const parkingModel = require('../models/parkingModel');
 
 exports.getCarList = async (req, res) => {
   const floor = req.params.floor;
-  const user_code = req.session.user.user_code;
-  const car_number = req.session.user.car_number;
 
+  console.log(req.session);
   try {
     let resultData;
     let carLocData = null;
     let carCnt;
-    if (user_code == 0) {
+    if (req.session.user) {
+      const car_number = req.session.user.car_number;
       resultData = await parkingModel.getCarList(floor);
       carLocData = await parkingModel.getMyCarLoc(car_number,floor)
-    } else if (user_code == 1) {
+    } else if (req.session.admin) {
       resultData = await parkingModel.getCarListDetail(floor);
     }
     carCnt = await parkingModel.getCarCnt(floor);
     const result = {
-      user_code: user_code,
       carLocData: carLocData, // carLocData를 result에 추가
       result: resultData,
       carCnt: carCnt,
