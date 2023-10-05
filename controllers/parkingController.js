@@ -3,8 +3,6 @@ const parkingModel = require('../models/parkingModel');
 
 exports.getCarList = async (req, res) => {
   const floor = req.params.floor;
-
-  console.log(req.session);
   try {
     let resultData;
     let carLocData = null;
@@ -48,7 +46,6 @@ exports.updateParking = async (req, res) => {
             const matchingData = parkingData.find((entry) => {  // 해당 주차공간에 들어온 차량이 있는지 확인
               return entry.section === section && entry.sectionNumber === sectionNumber && entry.floor === floor;
             });
-            console.log(section, sectionNumber, floor, matchingData);
             if (matchingData !== undefined) {    // 들어온 차가 있는경우, 데이터베이스에 차량 추가
               const { carNumber } = matchingData;
               await parkingModel.addParkingInfo(section, sectionNumber, floor, carNumber, currentTime);

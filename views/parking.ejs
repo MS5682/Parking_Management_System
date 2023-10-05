@@ -319,8 +319,6 @@
         const carNum = this.getAttribute('data-carNum');
         const id = this.getAttribute('data-id');
         const phoneNumber = this.getAttribute('data-phoneNumber');
-        const userCode =  '<%= result.user_code %>';
-        if(userCode == 1){
         const modal = document.getElementById('myModal');
         const modalContent = document.getElementById('modalContent');
         let contentHTML = "";
@@ -344,7 +342,6 @@
         closeModal.addEventListener('click', function() {
           modal.style.display = 'none';
         });
-      }
       });
     });
   </script>
