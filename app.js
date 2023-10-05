@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-const pool = require('../Parking_Management_System/db');
+const pool = require('./db');
 
 var parkingRouter = require('./routes/parkingRouter');
 var postsRouter = require('./routes/posts');
