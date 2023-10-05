@@ -76,7 +76,7 @@ exports.adminLogin = async (req, res) => {
       const passwordMatch = await bcrypt.compare(passwd, result[0].passwd);
       if (passwordMatch) {
         // session
-        req.session.user = {
+        req.session.admin = {
           id: id
         };
         // 인증 성공
