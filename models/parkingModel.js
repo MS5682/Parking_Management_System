@@ -147,7 +147,7 @@ module.exports.addParkingInfo = (section, sectionNumber, floor, carNumber, curre
                     } else {
                         // carNumber가 car 테이블에 존재하지 않으면 알림 추가
                         if (carRows.length === 0) {
-                            let notifyContext = `방문차량 ${carNumber}이 주차되었습니다.`;
+                            let notifyContext = `미등록 차량 ${carNumber}이 주차되었습니다.`;
                             
                             // 알림 테이블에 알림 추가
                             let notifySql = 'INSERT INTO notification (context, notify_time) VALUES (?, ?);';

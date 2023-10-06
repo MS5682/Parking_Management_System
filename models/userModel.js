@@ -262,7 +262,7 @@ exports.updateUserInfo = (id) => {
   
   exports.addUserCar = (id, car_number,visitor) => {
     return new Promise((resolve, reject) => {
-      const sql = 'INSERT INTO car(id, car_number,visitor) VALUES (?,?,?)';
+      const sql = 'INSERT INTO car(id, car_number,visitor, registration) VALUES (?,?,?,NOW())';
       pool.query(sql, [id, car_number,visitor], (err, result) => {
         if (err) {
           reject(err);
