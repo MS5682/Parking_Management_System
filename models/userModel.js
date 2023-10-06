@@ -76,7 +76,7 @@ module.exports.adminLogin = (id) => {
 
 module.exports.getUserCar = (id) => {
     return new Promise((resolve, reject) => {
-        let sql = 'SELECT car_number\
+        let sql = 'SELECT car_number, visitor\
         FROM car\
         WHERE id = ?';
         pool.query(sql, [id], (err, rows, fields) => {
@@ -126,19 +126,21 @@ module.exports.getUserList = () => {
     return new Promise((resolve, reject) => {
         let sql = `
         SELECT
-            user.id,
-            user.name,
-            user.phone_number,
-            user.email,
-            user.dong,
-            user.ho,
-            GROUP_CONCAT(car.car_number) AS car_number
+          user.id,
+          user.name,
+          user.phone_number,
+          user.email,
+          user.dong,
+          user.ho,
+          GROUP_CONCAT(CASE WHEN car.visitor = 0 THEN car.car_number ELSE NULL END) AS normal_car_numbers,
+          GROUP_CONCAT(CASE WHEN car.visitor = 1 THEN car.car_number ELSE NULL END) AS visitor_car_numbers
         FROM
             user
         LEFT JOIN
             car ON user.id = car.id
         GROUP BY
-            user.id, user.name, user.phone_number, user.email
+            user.id, user.name, user.phone_number, user.email, user.dong, user.ho
+
         `;
 
         pool.query(sql, (err, rows, fields) => {
@@ -161,7 +163,8 @@ module.exports.getUserFromValue = (column, value) => {
             user.email,
             user.dong,
             user.ho,
-            GROUP_CONCAT(car.car_number) AS car_number
+            GROUP_CONCAT(CASE WHEN car.visitor = 0 THEN car.car_number ELSE NULL END) AS normal_car_numbers,
+          GROUP_CONCAT(CASE WHEN car.visitor = 1 THEN car.car_number ELSE NULL END) AS visitor_car_numbers
         FROM
             user
         LEFT JOIN
@@ -242,10 +245,25 @@ exports.updateUserInfo = (id) => {
     });
   };
   
-  exports.addUserCar = (id, car_number) => {
+  exports.updateCarVisitor = (car_number, visitor) => {
     return new Promise((resolve, reject) => {
-      const sql = 'INSERT INTO car(id, car_number) VALUES (?,?)';
-      pool.query(sql, [id, car_number], (err, result) => {
+      const sql = 'UPDATE car\
+      SET visitor = ?\
+      WHERE car_number = ?;';
+      pool.query(sql, [visitor, car_number], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+  
+  exports.addUserCar = (id, car_number,visitor) => {
+    return new Promise((resolve, reject) => {
+      const sql = 'INSERT INTO car(id, car_number,visitor) VALUES (?,?,?)';
+      pool.query(sql, [id, car_number,visitor], (err, result) => {
         if (err) {
           reject(err);
         } else {

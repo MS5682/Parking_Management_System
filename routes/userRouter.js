@@ -18,7 +18,8 @@ router.get('/updateCar/:id', checkAdminSession, userController.getUserCarInfo);
 router.post('/update/:id', checkAdminSession, userController.updateUserInfo);
 router.post('/delete/:id', checkAdminSession, userController.deleteUserInfo);
 router.post('/updateCar/:current/:new', checkAdminSession, userController.updateUserCar);
-router.post('/addCar/:id/:car_number', checkAdminSession, userController.addUserCar);
+router.post('/updateCarVistor/:car_number/:visitor', checkAdminSession, userController.updateCarVisitor);
+router.post('/addCar/:id/:car_number/:visitor', checkAdminSession, userController.addUserCar);
 router.post('/deleteCar/:car_number', checkAdminSession, userController.deleteUserCar);
 
 // user login 추가

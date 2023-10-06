@@ -259,10 +259,24 @@ exports.updateUserCar = (req, res)=>{
       });
 }
 
+
+exports.updateCarVisitor = (req, res)=>{
+  const car_number = req.params.car_number;
+  const visitor = req.params.visitor;
+  userModel.updateCarVisitor(car_number, visitor)
+      .then((result) => {
+        res.send({ result: result });
+      })
+      .catch((error) => {
+        res.status(400).send("에러발생");
+      });
+}
+
 exports.addUserCar = (req, res)=>{
   const id = req.params.id;
   const car_number = req.params.car_number;
-  userModel.addUserCar(id, car_number)
+  const visitor = req.params.visitor;
+  userModel.addUserCar(id, car_number,visitor)
       .then((result) => {
         res.send({ result: result });
       })

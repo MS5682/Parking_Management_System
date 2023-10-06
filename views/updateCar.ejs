@@ -9,24 +9,39 @@
     <form>
         <label for="id">아이디:</label>
         <span id="id"><%= result.userInfo[0].id %></span><br>
-        <label for="car_number">차 번호:</label>
-        <ul id="carList">
-            <% if (result.userCar && result.userCar.length) { %>
-                <% for (let i = 0; i < result.userCar.length; i++) { %>
-                    <li>
-                        <span id="car_number<%= i %>"><%= result.userCar[i].car_number %></span>
-                        <button type="button" onclick="editCar('<%= result.userCar[i].car_number %>')">수정하기</button>
-                        <button type="button" onclick="deleteCar('<%= result.userCar[i].car_number %>')">삭제</button>
-                    </li>
+        <table>
+            <thead>
+                <tr>
+                    <th>차 번호</th>
+                    <th>방문차량</th>
+                    <th>수정하기</th>
+                    <th>삭제</th>
+                </tr>
+            </thead>
+            <tbody id="carList">
+                <% if (result.userCar && result.userCar.length) { %>
+                    <% for (let i = 0; i < result.userCar.length; i++) { %>
+                        <tr>
+                            <td><span id="car_number<%= i %>"><%= result.userCar[i].car_number %></span></td>
+                            <td><button type="button" onclick="editCar('<%= result.userCar[i].car_number %>')">차 번호 수정</button></td>
+                            <td><span id="visitor<%= i %>"><%= result.userCar[i].visitor === 1 ? '방문차량' : '일반차량' %></span></td>
+                            <td><button type="button" onclick="editVisitor('<%= result.userCar[i].car_number %>','<%= result.userCar[i].visitor %>')">차량 분류 수정</button></td>
+                            <td><button type="button" onclick="deleteCar('<%= result.userCar[i].car_number %>')">삭제</button></td>
+                        </tr>
+                    <% } %>
+                <% } else { %>
+                    <tr><td colspan="4">차 번호 정보가 없습니다.</td></tr>
                 <% } %>
-            <% } else { %>
-                <li>차 번호 정보가 없습니다.</li>
-            <% } %>
-        </ul>
+            </tbody>
+        </table>
         
         <!-- 추가하기 버튼 -->
         <label for="newCar">새로운 차 번호:</label>
         <input type="text" id="newCar" name="newCar">
+        <input type="radio" id="normalCar" name="visitor" value="0" checked>
+        <label for="normalCar">일반차량</label>
+        <input type="radio" id="visitorCar" name="visitor" value="1">
+        <label for="visitorCar">방문차량</label>
         <button type="button" onclick="addCar('<%= result.userInfo[0].id %>')" >추가하기</button>
 
         <!-- ... (기존 버튼들) ... -->
@@ -35,9 +50,32 @@
     <script>
         function editCar(currentCarNumber) {
             var newCarNumber = prompt('수정할 차 번호를 입력하세요:', currentCarNumber);
+            
             if (newCarNumber !== null) {
                 // 서버로 수정 요청 보내기
                 fetch('/user/updateCar/' + currentCarNumber + '/' + newCarNumber, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // 수정 성공 시, 화면 업데이트
+                        location.reload();
+                    } else {
+                        alert('수정에 실패했습니다.');
+                    }
+                });
+            }
+        }
+
+        function editVisitor(currentCarNumber, currentVisitor) {
+            var newVisitor = prompt('차량의 방문 여부를 입력하세요 (0: 일반차량, 1: 방문차량):', currentVisitor);
+            
+            if (newVisitor !== null) {
+                // 서버로 수정 요청 보내기
+                fetch('/user/updateCarVistor/' + currentCarNumber + '/' + newVisitor, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -74,9 +112,11 @@
 
         function addCar(userId) {
             var newCarNumber = document.getElementById('newCar').value;
+            var visitor = document.querySelector('input[name="visitor"]:checked').value;
+            
             if (newCarNumber) {
                 // 서버로 추가 요청 보내기
-                fetch('/user/addCar/' + userId + '/' + newCarNumber, {
+                fetch('/user/addCar/' + userId + '/' + newCarNumber + '/' + visitor, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
