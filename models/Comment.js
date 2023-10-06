@@ -16,7 +16,7 @@ exports.getCommentsByPostCode = (postCode, callback) => {
 };
 
 exports.createComment = (commentData, callback) => {
-    const query = 'INSERT INTO comment (post_code, comment_date, comment_contents, id) VALUES (?, ?, ?, ?)';
+    const query = 'INSERT INTO comment (post_code, comment_date, comment_contents, user_id) VALUES (?, ?, ?, ?)';
     pool.query(query, [commentData.post_code, commentData.comment_date, commentData.comment_contents, commentData.id], (err, results) => {
         if(err) throw err;
         callback(results);

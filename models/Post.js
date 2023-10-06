@@ -2,7 +2,7 @@ const pool = require('../db');
 
 exports.getPostsByBoardCode = (boardCode, callback) => {
   const query = `
-    SELECT p.post_code, p.post_date, p.title, p.id, p.view, b.board_name, p.board_code
+    SELECT p.post_code, p.post_date, p.title, p.user_id, p.view, b.board_name, p.board_code
     FROM post p
     JOIN board b ON p.board_code = b.board_code
     WHERE b.board_code = ?
@@ -15,7 +15,7 @@ exports.getPostsByBoardCode = (boardCode, callback) => {
 
 exports.createPost = (postData, callback) => {
   const query = `
-    INSERT INTO post (board_code, post_date, title, post_contents, view, file, id)
+    INSERT INTO post (board_code, post_date, title, post_contents, view, file, user_id)
     VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
   pool.query(query, [postData.board_code, postData.post_date, postData.title,
