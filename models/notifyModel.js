@@ -1,5 +1,6 @@
 const pool = require('../db');
 
+
 module.exports.getNotification = () => {
     return new Promise((resolve, reject) => {
         let sql = 'SELECT * FROM notification';
@@ -25,5 +26,6 @@ module.exports.deleteNotification = (notify_id) => {
         });
     });
 };
+
 
 module.exports = exports;

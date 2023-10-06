@@ -5,7 +5,7 @@ const notifyModel = require('../models/notifyModel');
   exports.getNotification = (req, res)=>{
     notifyModel.getNotification()
         .then((result) => {
-          res.send({ result: result });
+          res.render('notify',{ result: result });
         })
         .catch((error) => {
           res.status(400).send("에러발생");
@@ -16,7 +16,7 @@ const notifyModel = require('../models/notifyModel');
     const notify_id = req.params.notify_id;
     notifyModel.deleteNotification(notify_id)
         .then((result) => {
-          res.send({ result: result });
+          res.redirect('/notify')
         })
         .catch((error) => {
           res.status(400).send("에러발생");

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>알림 목록</title>
+</head>
+<body>
+    <h1>알림 목록</h1>
+    <table border="1">
+        <tr>
+            <th>알림번호</th>
+            <th>알림내용</th>
+            <th>알림시간</th>
+            <th>알림 삭제</th> 
+        </tr>
+        <% result.forEach((item) => { %>
+            <tr>
+                <td><%= item.notify_id %></td>
+                <td><%= item.context %></td>
+                <td><%= item.notify_time %></td>
+                <td>
+                    <!-- 알림 삭제 링크 -->
+                    <form method="POST" action="/notify/delete/<%= item.notify_id %>">
+                        <button type="submit">알림 삭제</button>
+                    </form>
+                </td>
+            </tr>
+        <% }); %>
+    </table>
+</body>
+</html>
