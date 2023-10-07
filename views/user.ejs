@@ -29,8 +29,8 @@
             <th>이메일</th>
             <th>동</th> 
             <th>호</th>
-            <th>차 번호</th>
-         
+            <th>일반 차량</th>
+            <th>방문 차량</th>
         </tr>
         <% for (let i = 0; i < result.length; i++) { %>
             <tr>
@@ -41,7 +41,8 @@
                 <td><%= result[i].email %></td>
                 <td><%= result[i].dong %></td>
                 <td><%= result[i].ho %></td> 
-                <td><%= result[i].car_number %></td> 
+                <td><%= result[i].normal_car_numbers %></td> 
+                <td><%= result[i].visitor_car_numbers %></td> 
                 <td><a href="/user/update/<%= result[i].id %>">회원정보 수정</a></td>
                 <td><a href="/user/updateCar/<%= result[i].id %>">차 정보 수정</a></td>
             </tr>

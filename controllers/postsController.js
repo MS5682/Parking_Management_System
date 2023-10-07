@@ -31,7 +31,6 @@ exports.getPost = (req, res) => {
   Post.getPostByPostCode(postCode, (post) => {
     Comment.getCommentsByPostCode(postCode, (comments) => {
       Board.getBoardbyBoardCode(boardCode, (board) => {
-        console.log(post);
         res.render('post', {post, comments, board});
       });
     });
