@@ -19,8 +19,6 @@ app.use(cors());                // app과의 통신을 위한 cors(보안상 문
 
 var notifyRouter = require('./routes/notifyRouter');
 
-var app = express();
-
 function formatDate(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0'); 
