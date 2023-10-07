@@ -88,9 +88,6 @@ function deleteVisitorCar() { //일주일 넘은 방문객 차량 삭제
 setInterval(notifyLongTermParking, 12 * 60 * 60 * 1000); 
 setInterval(deleteVisitorCar, 12 * 60 * 60 * 1000); 
 
-// const cors = require('cors');
-// app.use(cors());                // app과의 통신을 위한 cors(보안상 문제가 있어 테스트 용도로 사용중)
-
 function requireLogin(req, res, next) {
   if (req.session.admin || req.session.user) {
     next(); // 다음 미들웨어 또는 라우트 핸들러로 이동
