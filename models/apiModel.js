@@ -23,3 +23,20 @@ module.exports.getParkingStatus = function(floor){
         })
     })
 }
+
+module.exports.getParkingLotCarInformation = function(floor, callback){
+    const query = 'SELECT section, section_number FROM parking WHERE floor = ?';
+    conn.query(query, [floor], (err, results) => {
+        if(err) throw err;
+        callback(results);
+    });
+}
+
+module.exports.getMyCarLocation = function(car_number, callback){
+    const query = "SELECT * FROM parking WHERE car_num = ?";
+    conn.query(query, car_number, function(err, result){
+        if(err) throw err;
+        callback(result[0]);
+        console.log(result[0]);
+    })
+}
