@@ -126,6 +126,11 @@ app.use('/boards', requireLogin, boardsRouter);
 app.use('/user', userRouter);
 app.use('/api', apiRouter);
 app.use('/', (req, res) => {
+  if (req.session.admin) { 
+    res.redirect('/parking/1')
+  }else{
+    res.redirect('/user/login'); // 로그인 페이지로 리디렉션
+  }
   res.redirect('/user/login');
 });
 app.get('/logout', (req, res) => {

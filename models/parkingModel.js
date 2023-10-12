@@ -72,11 +72,10 @@ module.exports.getMyCarLoc = (car_number, floor) => {
 
 module.exports.getCarCnt = (floor) => {
     return new Promise((resolve, reject) => {
-        let sql = 'SELECT COUNT(car.car_number) AS car_cnt\
+        let sql = 'SELECT COUNT(car_num) AS car_cnt\
         FROM parking\
-        LEFT OUTER JOIN car ON parking.car_num = car.car_number\
-        WHERE parking.`exit` IS NULL\
-        AND parking.floor = ?';
+        WHERE `exit` IS NULL\
+        AND floor = ?';
         pool.query(sql, [floor], (err, rows, fields) => {
             if (err) {
                 reject(err);
@@ -87,20 +86,6 @@ module.exports.getCarCnt = (floor) => {
     });
 };
 
-module.exports.getCarExist = (section, sectionNumber, floor) => {
-    return new Promise((resolve, reject) => {
-        let sql = 'SELECT * FROM parking \
-        LEFT OUTER JOIN car ON parking.car_num = car.car_number\
-        WHERE parking.section = ? AND parking.sectionNumber = ? AND parking.floor = ? AND parking.exit IS NULL';
-        pool.query(sql, [section, sectionNumber, floor], (err, rows, fields) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(rows);
-            }
-        });
-    });
-};
 
 module.exports.checkParkingSpace = (section, sectionNumber, floor) => {
     return new Promise((resolve, reject) => {
