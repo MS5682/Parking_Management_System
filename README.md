@@ -52,7 +52,7 @@
 #### Request
 |메서드|URL|
 |---|---|
-|POST|/user/list|
+|GET|/user/list|
 
 #### Request Elements
 |파라미터|필수여부|설명|
@@ -67,12 +67,117 @@
 #### Request
 |메서드|URL|
 |---|---|
-|POST|/user/update/:id|
+|GET|/user/update/:id|
 
 #### Request Elements
 |파라미터|필수여부|설명|
 |---|---|---|
 |id|필수|해당 유저의 아이디|
 
+---
+### 유저의 차 정보 업데이트를 위한 기존 정보 조회
+해당하는 유저 차의 기존 정보를 가져옵니다.
 
+#### Request
+|메서드|URL|
+|---|---|
+|GET|/updateCar/:id|
+
+#### Request Elements
+|파라미터|필수여부|설명|
+|---|---|---|
+|id|필수|해당 유저의 아이디|
+
+---
+### 유저의 정보를 수정
+해당하는 유저 차의 기존 정보를 가져옵니다.
+
+#### Request
+|메서드|URL|
+|---|---|
+|POST|/update/:id|
+
+#### Request Elements
+|파라미터|필수여부|설명|
+|---|---|---|
+|id|필수|해당 유저의 아이디|
+|name|선택|해당 유저의 이름|
+|phone_number|선택|해당 유저의 전화번호|
+|email|선택|해당 유저의 이메일|
+|dong|선택|해당 유저의 동|
+|ho|선택|해당 유저의 호수|
+
+---
+### 유저의 정보 삭제
+해당하는 유저의 정보를 삭제합니다.
+
+#### Request
+|메서드|URL|
+|---|---|
+|POST|/delete/:id|
+
+#### Request Elements
+|파라미터|필수여부|설명|
+|---|---|---|
+|id|필수|해당 유저의 아이디|
+
+---
+### 차 정보 수정
+해당하는 유저의 정보를 삭제합니다.
+
+#### Request
+|메서드|URL|
+|---|---|
+|POST|/user/updateCar/:current/:new|
+
+#### Request Elements
+|파라미터|필수여부|설명|
+|---|---|---|
+|current|필수|기존 차 번호|
+|new|필수|새로운 차 번호|
+
+---
+### 방문자 차량 수정
+방문 차량 여부와 번호를 수정합니다.
+
+#### Request
+|메서드|URL|
+|---|---|
+|POST|/user/updateCarVistor/:car_number/:visitor|
+
+#### Request Elements
+|파라미터|필수여부|설명|
+|---|---|---|
+|car_number|필수|변경할 차 번호|
+|visitor|필수|방문자 코드|
+
+---
+### 방문자 차량 추가
+해당 유저에 방문 차량을 추가합니다.
+
+#### Request
+|메서드|URL|
+|---|---|
+|POST|/user/addCar/:id/:car_number/:visitor|
+
+#### Request Elements
+|파라미터|필수여부|설명|
+|---|---|---|
+|id|필수|해당 유저의 아이디|
+|car_number|필수|추가할 차 번호|
+|visitor|필수|방문자 코드|
+
+---
+### 차량 정보 삭제
+해당 유저에 방문 차량을 추가합니다.
+
+#### Request
+|메서드|URL|
+|---|---|
+|POST|/user/deleteCar/:car_number|
+
+#### Request Elements
+|파라미터|필수여부|설명|
+|---|---|---|
+|car_number|필수|삭제할 차 번호|
 
