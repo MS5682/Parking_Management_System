@@ -2,8 +2,85 @@
 <html>
 <head>
     <title>알림 목록</title>
+    <style>
+        #whole {
+  display: grid;
+  grid-template-columns: 1fr 19fr;
+  height: 800px;
+  position: fixed;
+  top: 0; 
+  left: 0; 
+}
+
+nav {
+  background-color: #333;
+  width: 200px;
+  color: #fff;
+  padding: 10px;
+  top: 0;
+  left: 0;
+}
+
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  padding: 10px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+}
+
+nav a:hover {
+  color: #ff7f00;
+}
+
+.user {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.user span {
+  margin-right: 10px;
+}
+
+#logout {
+  background-color: #ff7f00;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+#logout:hover {
+  background-color: #ff4500;
+}
+  </style>
 </head>
 <body>
+    <div id="whole">
+    <nav>
+      <ul>
+          <li><a href="/boards">게시판</a></li>
+          <li><a href="/parking">주차장</a></li>
+          <li><a href="/user/list">회원 목록</a></li>
+          <li><a href="/notify">알림</a></li>
+      </ul>
+      <div class="user">
+        <span>사용자 이름</span>
+        <a href="/logout">
+            <button id="logout">로그아웃</button>
+        </a>
+    </div>
+    </nav>
+    <div class="main">
     <h1>알림 목록</h1>
     <table border="1">
         <tr>
@@ -26,5 +103,7 @@
             </tr>
         <% }); %>
     </table>
+    </div>
+    </div>
 </body>
 </html>

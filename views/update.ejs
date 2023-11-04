@@ -3,8 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <title>회원 정보 수정</title>
+    <style>
+        #whole {
+  display: grid;
+  grid-template-columns: 1fr 19fr;
+  height: 800px;
+  position: fixed;
+  top: 0; 
+  left: 0; 
+}
+
+nav {
+  background-color: #333;
+  width: 200px;
+  color: #fff;
+  padding: 10px;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  padding: 10px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+}
+
+nav a:hover {
+  color: #ff7f00;
+}
+
+.user {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.user span {
+  margin-right: 10px;
+}
+
+#logout {
+  background-color: #ff7f00;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+#logout:hover {
+  background-color: #ff4500;
+}
+  </style>
 </head>
 <body>
+    <div id="whole" >
+        <nav>
+          <ul>
+              <li><a href="/boards">게시판</a></li>
+              <li><a href="/parking">주차장</a></li>
+              <li><a href="/user/list">회원 목록</a></li>
+              <li><a href="/notify">알림</a></li>
+          </ul>
+          <div class="user">
+            <span>사용자 이름</span>
+            <a href="/logout">
+                <button id="logout">로그아웃</button>
+            </a>
+        </div>
+        </nav>
+        <div class="main">
     <h1>회원 정보 수정</h1>
     <form method="POST" action="/user/update/<%= result.userInfo[0].id %>" onsubmit="return validateForm()">
         <label for="id">아이디:</label>
@@ -33,7 +107,7 @@
         <input type="submit" value="수정" onclick="reloadPage()">
         <button type="button" onclick="confirmDelete()">삭제</button>
     </form>
-    
+        </div></div>
     <script>
         function toggleEdit(inputId, spanId) {
             var inputElement = document.getElementById(inputId);
@@ -66,5 +140,6 @@
             location.reload();
         }
     </script>
+
 </body>
 </html>

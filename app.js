@@ -125,26 +125,26 @@ app.use('/posts', requireLogin, postsRouter);
 app.use('/boards', requireLogin, boardsRouter);
 app.use('/user', userRouter);
 app.use('/api', apiRouter);
-app.use('/', (req, res) => {
-  if (req.session.admin) { 
-    res.redirect('/parking/1')
-  }else{
-    res.redirect('/user/login'); // 로그인 페이지로 리디렉션
-  }
-  res.redirect('/user/login');
-});
-app.get('/logout', (req, res) => {
+
+app.use('/logout', (req, res) => {
+  console.log("logout")
   req.session.destroy((err) => {
     if (err) {
       console.log('세션 삭제 실패:', err);
       return res.status(500).send('세션 삭제 실패');
     }
     
-    res.clearCookie('session');
+    res.clearCookie('connect.sid'); // 세션 쿠키를 제거합니다
     res.redirect('/'); // 로그아웃 후 리디렉션할 경로
   });
 });
-
+app.use('/', (req, res) => {
+  if (req.session.admin) { 
+    res.redirect('/parking/1');
+  } else {
+    res.redirect('/user/login'); // 로그인 페이지로 리디렉션
+  }
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

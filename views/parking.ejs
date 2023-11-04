@@ -37,13 +37,13 @@
     .container {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 50px;
-      margin-left: 100px; /* 왼쪽 간격 조절 */
-      margin-right: 100px; /* 오른쪽 간격 조절 */
+      margin-bottom: 20px;
+      margin-left: 50px; /* 왼쪽 간격 조절 */
+      margin-right: 50px; /* 오른쪽 간격 조절 */
     }
   
     .section {
-      width: 400px;
+      width: 340px;
       margin: 50px;
     }
 
@@ -93,225 +93,300 @@
     border-radius: 5px;
     font-weight: bold;
   }
+
+  #whole {
+    display: grid;
+    grid-template-columns: 1fr 19fr;
+}
+
+nav {
+    background-color: #333;
+    width: 200px;
+    color: #fff;
+    padding: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
+    padding: 10px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+}
+
+nav a:hover {
+    color: #ff7f00;
+}
+
+.user {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.user span {
+    margin-right: 10px;
+}
+
+#logout {
+    background-color: #ff7f00;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#logout:hover {
+    background-color: #ff4500;
+}
+
+
   </style>
   
 </head>
 <body>
-  <h1><%= result.floor %>층 주차장 현황</h1>
-  <div class="car-count">
-    <h2>전체 주차 면 : 36</h2>
-    <h2>주차 중인 면 : <%= result.carCnt[0].car_cnt %></h2>
-    <h2>주차 가능 면 : <%= 36 - result.carCnt[0].car_cnt %></h2>
-  </div>
-  <div class="container">
-    <div class="modal" id="myModal">
-      <div class="modal-content">
-        <span class="close" id="closeModal">&times;</span>
-        <div id="modalContent">
+  <div id="whole" >
+  <nav>
+    <ul>
+        <li><a href="/boards">게시판</a></li>
+        <li><a href="/parking">주차장</a></li>
+        <li><a href="/user/list">회원 목록</a></li>
+        <li><a href="/notify">알림</a></li>
+    </ul>
+    <div class="user">
+      <span>사용자 이름</span>
+      <a href="/logout">
+        <button id="logout">로그아웃</button>
+    </a>
+    </div>
+  </nav>
+  <div class="main">
+      <div>
+        <h1><%= result.floor %>층 주차장 현황</h1>
+        <div class="car-count">
+          <h2>전체 주차 면 : 36</h2>
+          <h2>주차 중인 면 : <%= result.carCnt[0].car_cnt %></h2>
+          <h2>주차 가능 면 : <%= 36 - result.carCnt[0].car_cnt %></h2>
         </div>
       </div>
-    </div>
-    <div class="section">
-      <% const sectionDataA = result.result.filter(obj => obj.section === 'A'); %>
-      <h2 class="section-header">A구역</h2>
-      <table>
-        <% for (let row = 1; row <= 2; row++) { %>
-          <tr>
-            <% for (let col = 1; col <= 3; col++) { %>
-            <% const filteredData = sectionDataA.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-            <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
-            <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
-            <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
-            <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
-            <% const carLocData = result.carLocData ? result.carLocData[0] : null; %>
-            <% const carLocExists = carLocData && carLocData.section === 'A' && carLocData.section_number === ((row - 1) * 3 + col); %>
-            <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
-              <div class="car-info">
-                <div class="section-number"><%= ((row - 1) * 3 + col) %></div> 
-                <% if (carNumExists) { %>
-                  <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
-                   data-phoneNumber="<%= phoneNumber %>" style="width: 100px; height: 200px; object-fit: cover;" >
-                  
-                  <div class="details" style="display: none;">
-                  </div>
-                <% } %>
-              </div>
-              
-            </td>
-            <% } %>
-          </tr>
-        <% } %>
-      </table>
-    </div>
-
-    <div class="section">
-      <% const sectionDataC = result.result.filter(obj => obj.section === 'C'); %>
-      <h2 class="section-header">C구역</h2>
-      <table>
-        <% for (let row = 1; row <= 2; row++) { %>
-          <tr>
-            <% for (let col = 1; col <= 3; col++) { %>
-            <% const filteredData = sectionDataC.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-            <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
-            <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
-            <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
-            <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
-            <% const carLocData = result.carLocData ? result.carLocData[0] : null; %>
-            <% const carLocExists = carLocData && carLocData.section === 'C' && carLocData.section_number === ((row - 1) * 3 + col); %>
-            <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
-              <div class="car-info">
-                <div class="section-number"><%= ((row - 1) * 3 + col) %></div> 
-                <% if (carNumExists) { %>
-                  <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
-                   data-phoneNumber="<%= phoneNumber %>" style="width: 100px; height: 200px; object-fit: cover;" >
+      <div class="modal" id="myModal">
+        <div class="modal-content">
+          <span class="close" id="closeModal">&times;</span>
+          <div id="modalContent">
+          </div>
+        </div>
+      </div>
+    <div class="container">
+      <div class="section">
+        <% const sectionDataA = result.result.filter(obj => obj.section === 'A'); %>
+        <h2 class="section-header">A구역</h2>
+        <table>
+          <% for (let row = 1; row <= 2; row++) { %>
+            <tr>
+              <% for (let col = 1; col <= 3; col++) { %>
+              <% const filteredData = sectionDataA.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+              <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+              <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
+              <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
+              <% const carLocData = result.carLocData ? result.carLocData[0] : null; %>
+              <% const carLocExists = carLocData && carLocData.section === 'A' && carLocData.section_number === ((row - 1) * 3 + col); %>
+              <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
+                <div class="car-info">
+                  <div class="section-number"><%= ((row - 1) * 3 + col) %></div> 
+                  <% if (carNumExists) { %>
+                    <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
+                     data-phoneNumber="<%= phoneNumber %>" style="width: 100px; height: 200px; object-fit: cover;" >
+                    
+                    <div class="details" style="display: none;">
+                    </div>
+                  <% } %>
+                </div>
                 
-                    <div class="details" style="display: none;">
-                  </div>
-                <% } %>
-              </div>
-              
-            </td>
-            <% } %>
-          </tr>
-        <% } %>
-      </table>
-    </div>
-
-    <div class="section">
-      <% const sectionDataE = result.result.filter(obj => obj.section === 'E'); %>
-      <h2 class="section-header">E구역</h2>
-      <table>
-        <% for (let row = 1; row <= 2; row++) { %>
-          <tr>
-            <% for (let col = 1; col <= 3; col++) { %>
-            <% const filteredData = sectionDataE.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-            <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
-            <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
-            <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
-            <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
-            <% const carLocData = result.carLocData ? result.carLocData[0] : null; %>
-            <% const carLocExists = carLocData && carLocData.section === 'E' && carLocData.section_number === ((row - 1) * 3 + col); %>
-            <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
-              <div class="car-info">
-                <div class="section-number"><%= ((row - 1) * 3 + col) %></div> 
-                <% if (carNumExists) { %>
-                  <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
-                   data-phoneNumber="<%= phoneNumber %>" style="width: 100px; height: 200px; object-fit: cover;" >
-                   
-                    <div class="details" style="display: none;">
-                  </div>
-                <% } %>
-              </div>
-              
-            </td>
-            <% } %>
-          </tr>
-        <% } %>
-      </table>
-    </div>
-  </div>
+              </td>
+              <% } %>
+            </tr>
+          <% } %>
+        </table>
+      </div>
   
-  <div class="container">
-    <div class="section">
-      <% const sectionDataB = result.result.filter(obj => obj.section === 'B'); %>
-      <h2 class="section-header">B구역</h2>
-      <table>
-        <% for (let row = 1; row <= 2; row++) { %>
-          <tr>
-            <% for (let col = 1; col <= 3; col++) { %>
-            <% const filteredData = sectionDataB.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-            <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
-            <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
-            <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
-            <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
-            <% const carLocData = result.carLocData ? result.carLocData[0] : null; %>
-            <% const carLocExists = carLocData && carLocData.section === 'B' && carLocData.section_number === ((row - 1) * 3 + col); %>
-            <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
-              <div class="car-info">
-                <div class="section-number"><%= ((row - 1) * 3 + col) %></div> 
-                <% if (carNumExists) { %>
-                  <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
-                   data-phoneNumber="<%= phoneNumber %>" style="width: 100px; height: 200px; object-fit: cover;" >
-                   
-                    <div class="details" style="display: none;">
-                  </div>
-                <% } %>
-              </div>
-              
-            </td>
-            <% } %>
-          </tr>
-        <% } %>
-      </table>
+      <div class="section">
+        <% const sectionDataC = result.result.filter(obj => obj.section === 'C'); %>
+        <h2 class="section-header">C구역</h2>
+        <table>
+          <% for (let row = 1; row <= 2; row++) { %>
+            <tr>
+              <% for (let col = 1; col <= 3; col++) { %>
+              <% const filteredData = sectionDataC.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+              <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+              <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
+              <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
+              <% const carLocData = result.carLocData ? result.carLocData[0] : null; %>
+              <% const carLocExists = carLocData && carLocData.section === 'C' && carLocData.section_number === ((row - 1) * 3 + col); %>
+              <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
+                <div class="car-info">
+                  <div class="section-number"><%= ((row - 1) * 3 + col) %></div> 
+                  <% if (carNumExists) { %>
+                    <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
+                     data-phoneNumber="<%= phoneNumber %>" style="width: 100px; height: 200px; object-fit: cover;" >
+                  
+                      <div class="details" style="display: none;">
+                    </div>
+                  <% } %>
+                </div>
+                
+              </td>
+              <% } %>
+            </tr>
+          <% } %>
+        </table>
+      </div>
+  
+      <div class="section">
+        <% const sectionDataE = result.result.filter(obj => obj.section === 'E'); %>
+        <h2 class="section-header">E구역</h2>
+        <table>
+          <% for (let row = 1; row <= 2; row++) { %>
+            <tr>
+              <% for (let col = 1; col <= 3; col++) { %>
+              <% const filteredData = sectionDataE.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+              <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+              <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
+              <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
+              <% const carLocData = result.carLocData ? result.carLocData[0] : null; %>
+              <% const carLocExists = carLocData && carLocData.section === 'E' && carLocData.section_number === ((row - 1) * 3 + col); %>
+              <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
+                <div class="car-info">
+                  <div class="section-number"><%= ((row - 1) * 3 + col) %></div> 
+                  <% if (carNumExists) { %>
+                    <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
+                     data-phoneNumber="<%= phoneNumber %>" style="width: 100px; height: 200px; object-fit: cover;" >
+                     
+                      <div class="details" style="display: none;">
+                    </div>
+                  <% } %>
+                </div>
+                
+              </td>
+              <% } %>
+            </tr>
+          <% } %>
+        </table>
+      </div>
     </div>
-
-    <div class="section">
-      <% const sectionDataD = result.result.filter(obj => obj.section === 'D'); %>
-      <h2 class="section-header">D구역</h2>
-      <table>
-        <% for (let row = 1; row <= 2; row++) { %>
-          <tr>
-            <% for (let col = 1; col <= 3; col++) { %>
-            <% const filteredData = sectionDataD.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-            <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
-            <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
-            <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
-            <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
-            <% const carLocData = result.carLocData ? result.carLocData[0] : null; %>
-            <% const carLocExists = carLocData && carLocData.section === 'D' && carLocData.section_number === ((row - 1) * 3 + col); %>
-            <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
-              <div class="car-info">
-                <div class="section-number"><%= ((row - 1) * 3 + col) %></div> 
-                <% if (carNumExists) { %>
-                  <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
-                   data-phoneNumber="<%= phoneNumber %>" style="width: 100px; height: 200px; object-fit: cover;" >
-                   
-                    <div class="details" style="display: none;">
-                  </div>
-                <% } %>
-              </div>
-              
-            </td>
-            <% } %>
-          </tr>
-        <% } %>
-      </table>
-    </div>
-
-    <div class="section">
-      <% const sectionDataF = result.result.filter(obj => obj.section === 'F'); %>
-      <h2 class="section-header">F구역</h2>
-      <table>
-        <% for (let row = 1; row <= 2; row++) { %>
-          <tr>
-            <% for (let col = 1; col <= 3; col++) { %>
-            <% const filteredData = sectionDataF.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
-            <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
-            <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
-            <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
-            <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
-            <% const carLocData = result.carLocData ? result.carLocData[0] : null; %>
-            <% const carLocExists = carLocData && carLocData.section === 'F' && carLocData.section_number === ((row - 1) * 3 + col); %>
-            <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
-              <div class="car-info">
-                <div class="section-number"><%= ((row - 1) * 3 + col) %></div> 
-                <% if (carNumExists) { %>
-                  <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
-                   data-phoneNumber="<%= phoneNumber %>" style="width: 100px; height: 200px; object-fit: cover;" >
-                   
-                    <div class="details" style="display: none;">
-                  </div>
-                <% } %>
-              </div>
-              
-            </td>
-            <% } %>
-          </tr>
-        <% } %>
-      </table>
+    
+    <div class="container">
+      <div class="section">
+        <% const sectionDataB = result.result.filter(obj => obj.section === 'B'); %>
+        <h2 class="section-header">B구역</h2>
+        <table>
+          <% for (let row = 1; row <= 2; row++) { %>
+            <tr>
+              <% for (let col = 1; col <= 3; col++) { %>
+              <% const filteredData = sectionDataB.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+              <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+              <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
+              <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
+              <% const carLocData = result.carLocData ? result.carLocData[0] : null; %>
+              <% const carLocExists = carLocData && carLocData.section === 'B' && carLocData.section_number === ((row - 1) * 3 + col); %>
+              <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
+                <div class="car-info">
+                  <div class="section-number"><%= ((row - 1) * 3 + col) %></div> 
+                  <% if (carNumExists) { %>
+                    <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
+                     data-phoneNumber="<%= phoneNumber %>" style="width: 100px; height: 200px; object-fit: cover;" >
+                     
+                      <div class="details" style="display: none;">
+                    </div>
+                  <% } %>
+                </div>
+                
+              </td>
+              <% } %>
+            </tr>
+          <% } %>
+        </table>
+      </div>
+  
+      <div class="section">
+        <% const sectionDataD = result.result.filter(obj => obj.section === 'D'); %>
+        <h2 class="section-header">D구역</h2>
+        <table>
+          <% for (let row = 1; row <= 2; row++) { %>
+            <tr>
+              <% for (let col = 1; col <= 3; col++) { %>
+              <% const filteredData = sectionDataD.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+              <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+              <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
+              <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
+              <% const carLocData = result.carLocData ? result.carLocData[0] : null; %>
+              <% const carLocExists = carLocData && carLocData.section === 'D' && carLocData.section_number === ((row - 1) * 3 + col); %>
+              <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
+                <div class="car-info">
+                  <div class="section-number"><%= ((row - 1) * 3 + col) %></div> 
+                  <% if (carNumExists) { %>
+                    <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
+                     data-phoneNumber="<%= phoneNumber %>" style="width: 100px; height: 200px; object-fit: cover;" >
+                     
+                      <div class="details" style="display: none;">
+                    </div>
+                  <% } %>
+                </div>
+                
+              </td>
+              <% } %>
+            </tr>
+          <% } %>
+        </table>
+      </div>
+  
+      <div class="section">
+        <% const sectionDataF = result.result.filter(obj => obj.section === 'F'); %>
+        <h2 class="section-header">F구역</h2>
+        <table>
+          <% for (let row = 1; row <= 2; row++) { %>
+            <tr>
+              <% for (let col = 1; col <= 3; col++) { %>
+              <% const filteredData = sectionDataF.filter(obj => obj.section_number === ((row - 1) * 3 + col)); %>
+              <% const carNumExists = filteredData.length > 0 ? filteredData[0].car_num_exists : null; %>
+              <% const carNum = filteredData.length > 0 ? filteredData[0].car_num : null; %>
+              <% const id = filteredData.length > 0 ? filteredData[0].id : null; %>
+              <% const phoneNumber = filteredData.length > 0 ? filteredData[0].phone_number : null; %>
+              <% const carLocData = result.carLocData ? result.carLocData[0] : null; %>
+              <% const carLocExists = carLocData && carLocData.section === 'F' && carLocData.section_number === ((row - 1) * 3 + col); %>
+              <td  <% if (carLocExists) { %>style="border-color: red;"<% } %>>
+                <div class="car-info">
+                  <div class="section-number"><%= ((row - 1) * 3 + col) %></div> 
+                  <% if (carNumExists) { %>
+                    <img src="/images/car.jpg" alt="Car Image" data-carNum="<%= carNum %>" data-id="<%= id %>" 
+                     data-phoneNumber="<%= phoneNumber %>" style="width: 100px; height: 200px; object-fit: cover;" >
+                     
+                      <div class="details" style="display: none;">
+                    </div>
+                  <% } %>
+                </div>
+                
+              </td>
+              <% } %>
+            </tr>
+          <% } %>
+        </table>
+      </div>
     </div>
   </div>
-
+</div>
+</div>
 
   <script>
     document.querySelectorAll('.car-info img').forEach(img => {
