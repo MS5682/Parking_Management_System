@@ -5,62 +5,62 @@
     <title>회원 정보 수정</title>
     <style>
         #whole {
-  display: grid;
-  grid-template-columns: 1fr 19fr;
-  height: 800px;
-  position: fixed;
-  top: 0; 
-  left: 0; 
-}
+            display: grid;
+            grid-template-columns: 1fr 19fr;
+            height: 1000px;
+            position: fixed;
+            top: 0; 
+            left: 0; 
+        }
 
-nav {
-  background-color: #333;
-  width: 200px;
-  color: #fff;
-  padding: 10px;
-}
+        nav {
+            background-color: #333;
+            width: 200px;
+            color: #fff;
+            padding: 10px;
+        }
 
-nav ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
 
-nav li {
-  padding: 10px;
-}
+        nav li {
+            padding: 10px;
+        }
 
-nav a {
-  text-decoration: none;
-  color: #fff;
-}
+        nav a {
+            text-decoration: none;
+            color: #fff;
+        }
 
-nav a:hover {
-  color: #ff7f00;
-}
+        nav a:hover {
+            color: #ff7f00;
+        }
 
-.user {
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
-}
+        .user {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
 
-.user span {
-  margin-right: 10px;
-}
+        .user span {
+            margin-right: 10px;
+        }
 
-#logout {
-  background-color: #ff7f00;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-}
+        #logout {
+            background-color: #ff7f00;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
 
-#logout:hover {
-  background-color: #ff4500;
-}
-  </style>
+        #logout:hover {
+            background-color: #ff4500;
+        }
+    </style>
 </head>
 <body><div id="whole" >
     <nav>
@@ -71,7 +71,6 @@ nav a:hover {
           <li><a href="/notify">알림</a></li>
       </ul>
       <div class="user">
-        <span>사용자 이름</span>
         <a href="/logout">
             <button id="logout">로그아웃</button>
         </a>
@@ -95,8 +94,8 @@ nav a:hover {
                 <% if (result.userCar && result.userCar.length) { %>
                     <% for (let i = 0; i < result.userCar.length; i++) { %>
                         <tr>
-                            <td><span id="car_number<%= i %>"><%= result.userCar[i].car_number %></span></td>
-                            <td><button type="button" onclick="editCar('<%= result.userCar[i].car_number %>')">차 번호 수정</button></td>
+                            <td><span id="car_number<%= i %>"><%= result.userCar[i].car_number %></span>
+                                <button type="button" onclick="editCar('<%= result.userCar[i].car_number %>')">차 번호 수정</button></td>
                             <td><span id="visitor<%= i %>"><%= result.userCar[i].visitor === 1 ? '방문차량' : '일반차량' %></span></td>
                             <td><button type="button" onclick="editVisitor('<%= result.userCar[i].car_number %>','<%= result.userCar[i].visitor %>')">차량 분류 수정</button></td>
                             <td><button type="button" onclick="deleteCar('<%= result.userCar[i].car_number %>')">삭제</button></td>

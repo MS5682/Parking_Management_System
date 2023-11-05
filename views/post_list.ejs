@@ -1,5 +1,62 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<style>
+  #whole {
+      display: grid;
+      grid-template-columns: 1fr 19fr;
+      height: 1000px;
+      position: fixed;
+      top: 0; 
+      left: 0; 
+  }
 
+  nav {
+      background-color: #333;
+      width: 200px;
+      color: #fff;
+      padding: 10px;
+  }
+
+  nav ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+  }
+
+  nav li {
+      padding: 10px;
+  }
+
+  nav a {
+      text-decoration: none;
+      color: #fff;
+  }
+
+  nav a:hover {
+      color: #ff7f00;
+  }
+
+  .user {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+  }
+
+  .user span {
+      margin-right: 10px;
+  }
+
+  #logout {
+      background-color: #ff7f00;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+  }
+
+  #logout:hover {
+      background-color: #ff4500;
+  }
+</style>
 <% 
 function formatDate(date) {
   let d = new Date(date),
@@ -12,10 +69,24 @@ function formatDate(date) {
   if (day.length < 2) 
       day = '0' + day;
 
-  return [year, day, month].join('/');
+  return [year, month, day].join('/');
 }
 %>
-
+<div id="whole">
+  <nav>
+    <ul>
+        <li><a href="/boards">게시판</a></li>
+        <li><a href="/parking">주차장</a></li>
+        <li><a href="/user/list">회원 목록</a></li>
+        <li><a href="/notify">알림</a></li>
+    </ul>
+    <div class="user">
+      <a href="/logout">
+          <button id="logout">로그아웃</button>
+      </a>
+    </div>
+  </nav>
+<div class="main">
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <button class="btn btn-primary my-3" onclick="location.href='/boards'">뒤로가기</button>
@@ -42,7 +113,7 @@ function formatDate(date) {
     <tbody>
       <% posts.forEach(function(post){ %>
         <tr>
-          <td><%= post.board_code %></td>
+          <td><%= post.post_code %></td>
           <td><a href="/boards/<%= post.board_code %>/posts/<%= post.post_code %>"><%= post.title %></a></td>
           <td><%= post.view %></td>
           <td><%= formatDate(post.post_date) %></td>
@@ -51,3 +122,4 @@ function formatDate(date) {
     </tbody>
   </table>
 </div>
+</div></div>

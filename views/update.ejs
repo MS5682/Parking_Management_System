@@ -4,62 +4,62 @@
     <meta charset="UTF-8">
     <title>회원 정보 수정</title>
     <style>
-        #whole {
-  display: grid;
-  grid-template-columns: 1fr 19fr;
-  height: 800px;
-  position: fixed;
-  top: 0; 
-  left: 0; 
-}
+      #whole {
+          display: grid;
+          grid-template-columns: 1fr 19fr;
+          height: 1000px;
+          position: fixed;
+          top: 0; 
+          left: 0; 
+      }
 
-nav {
-  background-color: #333;
-  width: 200px;
-  color: #fff;
-  padding: 10px;
-}
+      nav {
+          background-color: #333;
+          width: 200px;
+          color: #fff;
+          padding: 10px;
+      }
 
-nav ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
+      nav ul {
+          list-style-type: none;
+          padding: 0;
+          margin: 0;
+      }
 
-nav li {
-  padding: 10px;
-}
+      nav li {
+          padding: 10px;
+      }
 
-nav a {
-  text-decoration: none;
-  color: #fff;
-}
+      nav a {
+          text-decoration: none;
+          color: #fff;
+      }
 
-nav a:hover {
-  color: #ff7f00;
-}
+      nav a:hover {
+          color: #ff7f00;
+      }
 
-.user {
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
-}
+      .user {
+          margin-top: 20px;
+          display: flex;
+          align-items: center;
+      }
 
-.user span {
-  margin-right: 10px;
-}
+      .user span {
+          margin-right: 10px;
+      }
 
-#logout {
-  background-color: #ff7f00;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-}
+      #logout {
+          background-color: #ff7f00;
+          color: #fff;
+          border: none;
+          padding: 5px 10px;
+          cursor: pointer;
+      }
 
-#logout:hover {
-  background-color: #ff4500;
-}
+      #logout:hover {
+          background-color: #ff4500;
+      }
   </style>
 </head>
 <body>
@@ -72,7 +72,6 @@ nav a:hover {
               <li><a href="/notify">알림</a></li>
           </ul>
           <div class="user">
-            <span>사용자 이름</span>
             <a href="/logout">
                 <button id="logout">로그아웃</button>
             </a>
@@ -81,29 +80,51 @@ nav a:hover {
         <div class="main">
     <h1>회원 정보 수정</h1>
     <form method="POST" action="/user/update/<%= result.userInfo[0].id %>" onsubmit="return validateForm()">
-        <label for="id">아이디:</label>
-        <span id="id"><%= result.userInfo[0].id %></span><br>
-        <label for="name">이름:</label>
-        <span id="nameSpan"><%= result.userInfo[0].name %></span>
-        <input type="text" id="nameInput" name="name" style="display: none;">
-        <button type="button" onclick="toggleEdit('nameInput', 'nameSpan')">수정하기</button><br>
-        <label for="phone_number">전화번호:</label>
-        <span id="phone_numberSpan"><%= result.userInfo[0].phone_number %></span>
-        <input type="text" id="phone_numberInput" name="phone_number" style="display: none;">
-        <button type="button" onclick="toggleEdit('phone_numberInput', 'phone_numberSpan')">수정하기</button><br>
-        <label for="email">이메일:</label>
-        <span id="emailSpan"><%= result.userInfo[0].email %></span>
-        <input type="text" id="emailInput" name="email" style="display: none;">
-        <button type="button" onclick="toggleEdit('emailInput', 'emailSpan')">수정하기</button><br>
-        <label for="dong">동:</label>
-        <span id="dongSpan"><%= result.userInfo[0].dong %></span>
-        <input type="text" id="dongInput" name="dong" style="display: none;">
-        <button type="button" onclick="toggleEdit('dongInput', 'dongSpan')">수정하기</button><br>
-        <label for="ho">호수:</label>
-        <span id="hoSpan"><%= result.userInfo[0].ho %></span>
-        <input type="text" id="hoInput" name="ho" style="display: none;">
-        <button type="button" onclick="toggleEdit('hoInput', 'hoSpan')">수정하기</button><br>
-
+      <table>
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>값</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><label for="id">아이디:</label></td>
+            <td><span id="id"><%= result.userInfo[0].id %></span><br></td>
+          </tr>
+          <tr>
+            <td><label for="name">이름:</label></td>
+            <td><span id="nameSpan"><%= result.userInfo[0].name %></span>
+              <input type="text" id="nameInput" name="name" style="display: none;">
+              <button type="button" onclick="toggleEdit('nameInput', 'nameSpan')">수정하기</button><br></td>
+          </tr>
+          <tr>
+            <td><label for="phone_number">전화번호:</label></td>
+            <td><span id="phone_numberSpan"><%= result.userInfo[0].phone_number %></span>
+              <input type="text" id="phone_numberInput" name="phone_number" style="display: none;">
+              <button type="button" onclick="toggleEdit('phone_numberInput', 'phone_numberSpan')">수정하기</button><br></td>
+          </tr>
+          <tr>
+            <td><label for="email">이메일:</label></td>
+            <td><span id="emailSpan"><%= result.userInfo[0].email %></span>
+              <input type="text" id="emailInput" name="email" style="display: none;">
+              <button type="button" onclick="toggleEdit('emailInput', 'emailSpan')">수정하기</button><br></td>
+          </tr>
+          <tr>
+            <td><label for="dong">동:</label></td>
+            <td><span id="dongSpan"><%= result.userInfo[0].dong %></span>
+              <input type="text" id="dongInput" name="dong" style="display: none;">
+              <button type="button" onclick="toggleEdit('dongInput', 'dongSpan')">수정하기</button><br></td>
+          </tr>
+          <tr>
+            <td><label for="ho">호수:</label></td>
+            <td><span id="hoSpan"><%= result.userInfo[0].ho %></span>
+              <input type="text" id="hoInput" name="ho" style="display: none;">
+              <button type="button" onclick="toggleEdit('hoInput', 'hoSpan')">수정하기</button><br></td>
+          </tr>
+        </tbody>
+      </table>
         <input type="submit" value="수정" onclick="reloadPage()">
         <button type="button" onclick="confirmDelete()">삭제</button>
     </form>
@@ -115,7 +136,7 @@ nav a:hover {
             
             if (inputElement.style.display === 'none') {
                 inputElement.style.display = 'inline';
-                spanElement.style.display = 'none';
+
                 inputElement.value = spanElement.innerText; // 수정 버튼을 눌렀을 때 값을 표시
             } else {
                 inputElement.style.display = 'none';
