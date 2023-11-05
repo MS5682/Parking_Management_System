@@ -56,7 +56,23 @@
   #logout:hover {
       background-color: #ff4500;
   }
-</style>
+  #floorDropdown {
+    margin-left: 10px; /* 원하는 간격 크기를 설정하세요 */
+}
+.hidden {
+    display: none; /* 또는 visibility: hidden; */
+}
+  </style>
+  <script>
+    function toggleFloors() {
+        const dropdown = document.getElementById('floorDropdown');
+        if (dropdown.classList.contains('hidden')) {
+            dropdown.classList.remove('hidden');
+        } else {
+            dropdown.classList.add('hidden');
+        }
+    }
+  </script>
 <% 
 function formatDate(date) {
   let d = new Date(date),
@@ -76,14 +92,21 @@ function formatDate(date) {
   <nav>
     <ul>
         <li><a href="/boards">게시판</a></li>
-        <li><a href="/parking">주차장</a></li>
+        <li>
+          <a href="javascript:void(0);" onclick="toggleFloors()">주차장</a>
+          <div id="floorDropdown" class="hidden">
+              <a href="/parking/1">1층 주차장</a><br>
+              <a href="/parking/2">2층 주차장</a><br>
+              <a href="/parking/3">3층 주차장</a><br>
+          </div>
+        </li>
         <li><a href="/user/list">회원 목록</a></li>
         <li><a href="/notify">알림</a></li>
     </ul>
     <div class="user">
       <a href="/logout">
-          <button id="logout">로그아웃</button>
-      </a>
+        <button id="logout">로그아웃</button>
+    </a>
     </div>
   </nav>
 <div class="main">

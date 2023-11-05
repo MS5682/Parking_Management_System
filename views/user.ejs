@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <meta charset="UTF-8">
     <title>회원 목록</title>
     <style>
@@ -12,6 +13,16 @@
           top: 0; 
           left: 0; 
       }
+      .main {
+        margin-left: 100px;
+  margin-right: 100px;
+        width: 80%;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center;
+    height: 100%; /* 부모 요소의 높이를 활용하여 내용을 가운데 정렬 */
+    text-align: center; /* 텍스트를 수평 가운데 정렬 (선택사항) */
+}
+
 
       nav {
           background-color: #333;
@@ -60,23 +71,46 @@
       #logout:hover {
           background-color: #ff4500;
       }
+      #floorDropdown {
+    margin-left: 10px; /* 원하는 간격 크기를 설정하세요 */
+}
+.hidden {
+    display: none; /* 또는 visibility: hidden; */
+}
   </style>
+  <script>
+    function toggleFloors() {
+        const dropdown = document.getElementById('floorDropdown');
+        if (dropdown.classList.contains('hidden')) {
+            dropdown.classList.remove('hidden');
+        } else {
+            dropdown.classList.add('hidden');
+        }
+    }
+  </script>
 </head>
 <body>
     <div id="whole" >
-        <nav>
-          <ul>
-              <li><a href="/boards">게시판</a></li>
-              <li><a href="/parking">주차장</a></li>
-              <li><a href="/user/list">회원 목록</a></li>
-              <li><a href="/notify">알림</a></li>
-          </ul>
-          <div class="user">
-            <a href="/logout">
-                <button id="logout">로그아웃</button>
-            </a>
+      <nav>
+        <ul>
+            <li><a href="/boards">게시판</a></li>
+            <li>
+              <a href="javascript:void(0);" onclick="toggleFloors()">주차장</a>
+              <div id="floorDropdown" class="hidden">
+                  <a href="/parking/1">1층 주차장</a><br>
+                  <a href="/parking/2">2층 주차장</a><br>
+                  <a href="/parking/3">3층 주차장</a><br>
+              </div>
+            </li>
+            <li><a href="/user/list">회원 목록</a></li>
+            <li><a href="/notify">알림</a></li>
+        </ul>
+        <div class="user">
+          <a href="/logout">
+            <button id="logout">로그아웃</button>
+        </a>
         </div>
-        </nav>
+      </nav>
         <div class="main">
     <h1>회원 목록</h1>
     
@@ -93,20 +127,20 @@
         <input type="submit" value="검색">
     </form>
 
-    <table>
+    <table class="table">
       <thead>
         <tr>
-            <th>번호</th>
-            <th>아이디</th>
-            <th>이름</th>
-            <th>전화번호</th>
-            <th>이메일</th>
-            <th>동</th> 
-            <th>호</th>
-            <th>일반 차량</th>
-            <th>방문 차량</th>
-            <th></th>
-            <th></th>
+            <th scope="col">번호</th>
+            <th scope="col">아이디</th>
+            <th scope="col">이름</th>
+            <th scope="col">전화번호</th>
+            <th scope="col">이메일</th>
+            <th scope="col">동</th> 
+            <th scope="col">호</th>
+            <th scope="col">일반 차량</th>
+            <th scope="col">방문 차량</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
