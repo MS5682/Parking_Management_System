@@ -12,7 +12,7 @@ const conn = mysql.createConnection({
 // mobile api
 module.exports.getParkingStatus = function(floor){
     return new Promise(function(resolve, reject){
-        let sql = 'SELECT COUNT(*) as status FROM parking WHERE floor = ?'
+        let sql = 'SELECT COUNT(*) as status FROM parking WHERE `exit` IS NULL AND floor = ?'
         conn.query(sql,[floor], function(err, rows){
             if(err){
                 reject(err);
@@ -25,7 +25,7 @@ module.exports.getParkingStatus = function(floor){
 }
 
 module.exports.getParkingLotCarInformation = function(floor, callback){
-    const query = 'SELECT section, section_number FROM parking WHERE floor = ?';
+    const query = 'SELECT section, section_number FROM parking WHERE floor = ? AND `exit` IS NULL;';
     conn.query(query, [floor], (err, results) => {
         if(err) throw err;
         callback(results);
@@ -33,7 +33,7 @@ module.exports.getParkingLotCarInformation = function(floor, callback){
 }
 
 module.exports.getMyCarLocation = function(car_number, callback){
-    const query = "SELECT * FROM parking WHERE car_num = ?";
+    const query = "SELECT * FROM parking WHERE car_num = ? AND `exit` IS NULL;";
     conn.query(query, car_number, function(err, result){
         if(err) throw err;
         callback(result[0]);
